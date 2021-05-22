@@ -28243,7 +28243,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var const__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! const */ "./src/const.js");
 /* harmony import */ var node_editor_NodeSocket__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! node_editor/NodeSocket */ "./src/node_editor/NodeSocket.vue");
-/* harmony import */ var models_ConfigLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! models/ConfigLoader */ "./src/models/ConfigLoader.js");
+/* harmony import */ var models_Config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! models/Config */ "./src/models/Config.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-bundler.js");
 
 
@@ -28289,13 +28289,13 @@ __webpack_require__.r(__webpack_exports__);
       return this.machineNum > 1;
     },
     machineName: function machineName() {
-      return models_ConfigLoader__WEBPACK_IMPORTED_MODULE_2__.default.getMachineData(this.machine).Name;
+      return models_Config__WEBPACK_IMPORTED_MODULE_2__.Config.getMachineData(this.machine).Name;
     },
     recipeName: function recipeName() {
       return this.recipe;
     },
     recipeData: function recipeData() {
-      var data = models_ConfigLoader__WEBPACK_IMPORTED_MODULE_2__.default.getRecipeData(this.recipe);
+      var data = models_Config__WEBPACK_IMPORTED_MODULE_2__.Config.getRecipeData(this.recipe);
       var input = Object.keys(data.Input).map(function (v, i) {
         return {
           id: v,
@@ -28310,7 +28310,7 @@ __webpack_require__.r(__webpack_exports__);
       });
 
       var materialStateIs = function materialStateIs(id, state) {
-        return models_ConfigLoader__WEBPACK_IMPORTED_MODULE_2__.default.getMaterialData(id).State == state;
+        return models_Config__WEBPACK_IMPORTED_MODULE_2__.Config.getMaterialData(id).State == state;
       };
 
       var result = {
@@ -28378,7 +28378,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var const__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! const */ "./src/const.js");
 /* harmony import */ var models_Calculator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! models/Calculator */ "./src/models/Calculator.js");
-/* harmony import */ var models_ConfigLoader__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! models/ConfigLoader */ "./src/models/ConfigLoader.js");
+/* harmony import */ var models_Config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! models/Config */ "./src/models/Config.js");
 
 
 
@@ -28403,11 +28403,11 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     // 素材名
     name: function name() {
-      return models_ConfigLoader__WEBPACK_IMPORTED_MODULE_2__.default.getMaterialData(this.material).Name;
+      return models_Config__WEBPACK_IMPORTED_MODULE_2__.Config.getMaterialData(this.material).Name;
     },
     // 物質の状態
     state: function state() {
-      return models_ConfigLoader__WEBPACK_IMPORTED_MODULE_2__.default.getMaterialData(this.material).State;
+      return models_Config__WEBPACK_IMPORTED_MODULE_2__.Config.getMaterialData(this.material).State;
     },
     // 固形を表す定義
     isSolid: function isSolid() {
@@ -28431,6 +28431,60 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeDetail.vue?vue&type=script&lang=js":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeDetail.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var models_Config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! models/Config */ "./src/models/Config.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  methods: {
+    /*selectMachineNode: function(node) {
+        this.selectingNode = node;
+        this.name = '設備ノード';
+        this.properties
+    }*/
+  },
+  data: function data() {
+    return {
+      selectingNode: null,
+      name: '設備ノード',
+      properties: [{
+        label: '設備名',
+        type: 'select',
+        value: models_Config__WEBPACK_IMPORTED_MODULE_0__.Config.getMachineData('Blender').Name,
+        options: models_Config__WEBPACK_IMPORTED_MODULE_0__.Config.getMachineNameList()
+      }, {
+        label: '設備数',
+        type: 'spinbox',
+        value: 1,
+        min: 1
+      }, {
+        label: 'レシピ名',
+        type: 'select',
+        value: '代替: 混合ターボ燃料',
+        options: models_Config__WEBPACK_IMPORTED_MODULE_0__.Config.getRecipeNameForMachine('Blender')
+      }, {
+        label: 'オーバークロック数',
+        type: 'slider',
+        value: 100,
+        min: 0,
+        max: 250,
+        step: 50
+      }]
+    };
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeEditor.vue?vue&type=script&lang=js":
 /*!*****************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeEditor.vue?vue&type=script&lang=js ***!
@@ -28445,8 +28499,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-bundler.js");
 /* harmony import */ var node_editor_logics_point__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! node_editor/logics/point */ "./src/node_editor/logics/point.js");
 /* harmony import */ var const__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! const */ "./src/const.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 /* harmony import */ var node_editor_DrawBoard__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! node_editor/DrawBoard */ "./src/node_editor/DrawBoard.vue");
+/* harmony import */ var node_editor_NodeDetail__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! node_editor/NodeDetail */ "./src/node_editor/NodeDetail.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -28458,9 +28513,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    DrawBoard: node_editor_DrawBoard__WEBPACK_IMPORTED_MODULE_3__.default
+    DrawBoard: node_editor_DrawBoard__WEBPACK_IMPORTED_MODULE_3__.default,
+    NodeDetail: node_editor_NodeDetail__WEBPACK_IMPORTED_MODULE_4__.default
   },
   props: {
     showGrid: Boolean
@@ -28494,7 +28551,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     window.removeEventListener('mouseup', this.onMouseAction);
     window.removeEventListener('mousemove', this.onMouseAction);
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapGetters)('EditorStatus', {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapGetters)('EditorStatus', {
     isDebugMode: 'isDebugMode',
     // デバッグモードか
     isIdling: 'isIdling',
@@ -28509,7 +28566,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return this.position.y.value + 'px';
     }
   }),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_4__.mapMutations)('EditorStatus', {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapMutations)('EditorStatus', {
     changeControlState: 'changeState' // 操作ステータス変更
 
   })), {}, {
@@ -28577,7 +28634,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var const__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! const */ "./src/const.js");
-/* harmony import */ var models_ConfigLoader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! models/ConfigLoader */ "./src/models/ConfigLoader.js");
+/* harmony import */ var models_Config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! models/Config */ "./src/models/Config.js");
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
 /* harmony import */ var node_editor_MaterialView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! node_editor/MaterialView */ "./src/node_editor/MaterialView.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
@@ -28642,7 +28699,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     // 物質の状態
     state: function state() {
-      return models_ConfigLoader__WEBPACK_IMPORTED_MODULE_1__.default.getMaterialData(this.material).State;
+      return models_Config__WEBPACK_IMPORTED_MODULE_1__.Config.getMaterialData(this.material).State;
     }
   }),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapMutations)('EditorStatus', {
@@ -29297,6 +29354,125 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeDetail.vue?vue&type=template&id=2a015dde":
+/*!*********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeDetail.vue?vue&type=template&id=2a015dde ***!
+  \*********************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-bundler.js");
+
+var _hoisted_1 = {
+  class: "detail-frame"
+};
+var _hoisted_2 = {
+  class: "node-name"
+};
+
+var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("hr", null, null, -1
+/* HOISTED */
+);
+
+var _hoisted_4 = {
+  class: "parameter-list"
+};
+var _hoisted_5 = {
+  class: "label"
+};
+var _hoisted_6 = {
+  class: "value-area"
+};
+var _hoisted_7 = {
+  key: 0,
+  class: "value-item"
+};
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
+  disabled: "",
+  value: ""
+}, "未選択", -1
+/* HOISTED */
+);
+
+var _hoisted_9 = {
+  key: 1,
+  class: "value-item"
+};
+var _hoisted_10 = {
+  key: 2,
+  class: "value-item"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.name), 1
+  /* TEXT */
+  ), _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.properties, function (property, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
+      class: "parameter",
+      key: index
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(property.label), 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [property.type == 'select' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
+      "onUpdate:modelValue": function onUpdateModelValue($event) {
+        return property.value = $event;
+      },
+      class: "w100"
+    }, [_hoisted_8, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(property.options, function (option) {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("option", {
+        key: option,
+        value: option
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 9
+      /* TEXT, PROPS */
+      , ["value"]);
+    }), 128
+    /* KEYED_FRAGMENT */
+    ))], 8
+    /* PROPS */
+    , ["onUpdate:modelValue"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, property.value]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), property.type == 'spinbox' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+      type: "number",
+      "onUpdate:modelValue": function onUpdateModelValue($event) {
+        return property.value = $event;
+      },
+      class: "w100",
+      min: property.min,
+      max: property.max,
+      step: property.step
+    }, null, 8
+    /* PROPS */
+    , ["onUpdate:modelValue", "min", "max", "step"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, property.value]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), property.type == 'slider' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+      type: "range",
+      "onUpdate:modelValue": function onUpdateModelValue($event) {
+        return property.value = $event;
+      },
+      class: "flex-1",
+      name: "volume",
+      min: property.min,
+      max: property.max,
+      step: property.step
+    }, null, 8
+    /* PROPS */
+    , ["onUpdate:modelValue", "min", "max", "step"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, property.value]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+      type: "number",
+      class: "slider-number",
+      "onUpdate:modelValue": function onUpdateModelValue($event) {
+        return property.value = $event;
+      },
+      min: property.min,
+      max: property.max
+    }, null, 8
+    /* PROPS */
+    , ["onUpdate:modelValue", "min", "max"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, property.value]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))])]);
+}
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeEditor.vue?vue&type=template&id=680127a6&scoped=true":
 /*!*********************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeEditor.vue?vue&type=template&id=680127a6&scoped=true ***!
@@ -29328,10 +29504,16 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 /* HOISTED */
 );
 
+var _hoisted_3 = {
+  class: "detail"
+};
+
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
   var _component_draw_board = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("draw-board");
+
+  var _component_node_detail = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("node-detail");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
     class: ["frame", {
@@ -29353,7 +29535,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* STYLE */
   )], 6
   /* CLASS, STYLE */
-  )]);
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_node_detail)])]);
 });
 
 /***/ }),
@@ -31355,6 +31537,90 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/models/Config.js":
+/*!******************************!*\
+  !*** ./src/models/Config.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Config": () => (/* binding */ Config)
+/* harmony export */ });
+// 読み込んだ設定と設定情報
+var Config = {
+  json: null,
+  update: function update(config) {
+    this.json = config;
+  },
+  isLoaded: function isLoaded() {
+    return !!this.json;
+  },
+  isLoadedWithWarning: function isLoadedWithWarning() {
+    if (!this.isLoaded()) {
+      console.warn('まだ設定が読込終わっていません。');
+    }
+
+    return true;
+  },
+  // 設備 id リスト取得
+  getMachineIdList: function getMachineIdList() {
+    var _this = this;
+
+    if (!this.isLoadedWithWarning()) return;
+    return Object.keys(json.Machines).map(function (key) {
+      return _this.json.Machines[key].Id;
+    });
+  },
+  // 設備名リスト取得
+  getMachineNameList: function getMachineNameList() {
+    var _this2 = this;
+
+    if (!this.isLoadedWithWarning()) return;
+    return Object.keys(this.json.Machines).map(function (key) {
+      return _this2.json.Machines[key].Name;
+    });
+  },
+  // 設備名から id 逆引き
+  getMachineIdFromName: function getMachineIdFromName(name) {
+    var _this3 = this;
+
+    if (!this.isLoadedWithWarning()) return;
+    return Object.keys(this.json.Machines).find(function (key) {
+      _this3.json.Machines[key].name == name;
+    });
+  },
+  // 設備情報取得
+  getMachineData: function getMachineData(machineId) {
+    if (!this.isLoadedWithWarning()) return;
+    return this.json.Machines[machineId];
+  },
+  // 設備で使えるレシピ名リスト取得
+  getRecipeNameForMachine: function getRecipeNameForMachine(machineId) {
+    return this.json.Recipes.filter(function (data) {
+      return data.Machine.indexOf(machineId) != -1;
+    }).map(function (v) {
+      return v.Name;
+    });
+  },
+  // レシピ情報取得
+  getRecipeData: function getRecipeData(recipeName) {
+    if (!this.isLoadedWithWarning()) return;
+    return this.json.Recipes.find(function (data) {
+      return data.Name == recipeName;
+    });
+    ;
+  },
+  // 素材情報取得
+  getMaterialData: function getMaterialData(MaterialId) {
+    if (!this.isLoadedWithWarning()) return;
+    return this.json.Materials[MaterialId];
+  }
+};
+
+/***/ }),
+
 /***/ "./src/models/ConfigLoader.js":
 /*!************************************!*\
   !*** ./src/models/ConfigLoader.js ***!
@@ -31366,9 +31632,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var models_Config__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! models/Config */ "./src/models/Config.js");
 // 設定読込処理定義
-// 読み込んだ設定
-var Config = {};
+
 var FileName = 'assets/config.json';
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   // 設定を読込
@@ -31377,36 +31643,9 @@ var FileName = 'assets/config.json';
       return response.json();
     }).then(function (json) {
       console.log(json);
-      Config = json;
+      models_Config__WEBPACK_IMPORTED_MODULE_0__.Config.update(json);
       callback();
     });
-  },
-  // 設備リスト取得
-  getMachineList: function getMachineList() {
-    return Object.keys(Config.Machines).map(function (key) {
-      return Config.Machines[key].Name;
-    });
-  },
-  // 設備情報取得
-  getMachineData: function getMachineData(machineId) {
-    return Config.Machines[machineId];
-  },
-  // 設備で使えるレシピ名リスト取得
-  getRecipeNameForMachine: function getRecipeNameForMachine(machineId) {
-    return Config.Recipies.filter(function (data) {
-      return machineId in data.Machine;
-    });
-  },
-  // レシピ情報取得
-  getRecipeData: function getRecipeData(recipeName) {
-    return Config.Recipes.find(function (data) {
-      return data.Name == recipeName;
-    });
-    ;
-  },
-  // 素材情報取得
-  getMaterialData: function getMaterialData(MaterialId) {
-    return Config.Materials[MaterialId];
   }
 });
 
@@ -31648,7 +31887,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.machine-root[data-v-5be18a8a] {\n        position: absolute;\n        display: flex;\n        flex-direction: column;\n        min-width: 240px;\n        white-space: nowrap;\n        font-weight: bold;\n}\n.machine[data-v-5be18a8a] {\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: row;\n        justify-content: center;\n        margin-bottom: 2px;\n        /*position: relative;*/\n}\n.machine .name[data-v-5be18a8a] {\n        flex: 1;\n        text-align: center;\n        background: lightgray;\n        border-radius: 4px;\n        border: 1px solid black;\n}\n.machine-name[data-v-5be18a8a] {\n        font-weight: bold;\n}\n.machine-frame[data-v-5be18a8a] {\n        border: 1px solid black;\n        border-radius: 4px;\n        background: silver;\n        flex: 1;\n        display: flex;\n        flex-direction: column;\n}\n.machine-recipe[data-v-5be18a8a] {\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: row;\n        justify-content: center;\n}\n.machine-recipe .name[data-v-5be18a8a] {\n        flex: 1;\n        text-align: center;\n}\n.machine-inout[data-v-5be18a8a] {\n        flex: 1;\n        display: flex;\n        flex-direction: row;\n}\n.machine-input[data-v-5be18a8a],.machine-output[data-v-5be18a8a] {\n        padding: 4px;\n}\n.machine-socket[data-v-5be18a8a] {\n        border: 1px solid black;\n        border-radius: 4px;\n        width: 100%;\n        margin-bottom: 4px;\n}\n.h-separator[data-v-5be18a8a] {\n        width: 100%;\n        height: 1px;\n        background: black;\n}\n.v-separator[data-v-5be18a8a] {\n        width: 1px;\n        background: black;\n}\n.machine-overclock[data-v-5be18a8a],.machine-product-time[data-v-5be18a8a] {\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: row;\n        justify-content: center;\n}\n.machine-overclock[data-v-5be18a8a],.machine-product-time .name[data-v-5be18a8a] {\n        flex: 1;\n        text-align: center;\n}\n.abnormal[data-v-5be18a8a] {\n        color: chocolate;\n}\n.machine-sockets[data-v-5be18a8a] {\n        width: 100%;\n}\n.machine-sockets .item[data-v-5be18a8a] {\n        width: 100%;\n}\n.collapse[data-v-5be18a8a] {\n        width: 1rem;\n        height: 1rem;\n        font-weight: 800;\n        position: absolute;\n        right: 4px;\n        top: 2px;\n        bottom: 2px;\n}\n", "",{"version":3,"sources":["webpack://./src/node_editor/MachineNode.vue"],"names":[],"mappings":";AAkNI;QACI,kBAAkB;QAClB,aAAa;QACb,sBAAsB;QACtB,gBAAgB;QAChB,mBAAmB;QACnB,iBAAiB;AACrB;AACA;QACI,WAAW;QACX,YAAY;QACZ,aAAa;QACb,mBAAmB;QACnB,uBAAuB;QACvB,kBAAkB;QAClB,sBAAsB;AAC1B;AACA;QACI,OAAO;QACP,kBAAkB;QAClB,qBAAqB;QACrB,kBAAkB;QAClB,uBAAuB;AAC3B;AACA;QACI,iBAAiB;AACrB;AACA;QACI,uBAAuB;QACvB,kBAAkB;QAClB,kBAAkB;QAClB,OAAO;QACP,aAAa;QACb,sBAAsB;AAC1B;AACA;QACI,WAAW;QACX,YAAY;QACZ,aAAa;QACb,mBAAmB;QACnB,uBAAuB;AAC3B;AACA;QACI,OAAO;QACP,kBAAkB;AACtB;AACA;QACI,OAAO;QACP,aAAa;QACb,mBAAmB;AACvB;AACA;QACI,YAAY;AAChB;AACA;QACI,uBAAuB;QACvB,kBAAkB;QAClB,WAAW;QACX,kBAAkB;AACtB;AACA;QACI,WAAW;QACX,WAAW;QACX,iBAAiB;AACrB;AACA;QACI,UAAU;QACV,iBAAiB;AACrB;AACA;QACI,WAAW;QACX,YAAY;QACZ,aAAa;QACb,mBAAmB;QACnB,uBAAuB;AAC3B;AACA;QACI,OAAO;QACP,kBAAkB;AACtB;AACA;QACI,gBAAgB;AACpB;AACA;QACI,WAAW;AACf;AACA;QACI,WAAW;AACf;AAEA;QACI,WAAW;QACX,YAAY;QACZ,gBAAgB;QAChB,kBAAkB;QAClB,UAAU;QACV,QAAQ;QACR,WAAW;AACf","sourcesContent":["<template>\n    <div class=\"machine-root\">\n        <div class=\"machine\">\n            <div class=\"name\">\n                {{ machineName }}<span v-if=\"showMachineNum\"> x{{ machineNum }}</span>\n            </div>\n            <div class=\"collapse\" @click=\"onToggleCollapse\">\n                <i class=\"far fa-caret-square-up\" v-show=\"collapsed\"></i>\n                <i class=\"far fa-caret-square-down\" v-show=\"!collapsed\"></i>\n            </div>\n        </div>\n        <div class=\"machine-frame\">\n            <div class=\"machine-recipe\" v-show=\"!collapsed\">\n                <div class=\"name\">\n                    {{ recipeName }}\n                </div>\n            </div>\n            <div class=\"h-separator\" v-show=\"!collapsed\"></div>\n            <div class=\"machine-inout\">\n                <div class=\"machine-input\">\n                    <div class=\"machine-sockets\" v-if=\"recipeData.input.solid.length > 0\">\n                        <div class=\"item\" v-show=\"!collapsed\">\n                            固形入力\n                        </div>\n                        <div class=\"item\" v-for=\"(item, index) in recipeData.input.solid\" :key=\"index\">\n                            <node-socket\n                                :material=\"item.id\"\n                                :num=\"item.num\"\n                                :direction=\"input\"\n                                :machineInfo=\"machineInfo\">\n                            </node-socket>\n                        </div>\n                    </div>\n                    <div class=\"machine-sockets\" v-if=\"recipeData.input.fluid.length > 0\">\n                        <div class=\"item\" v-if=\"recipeData.input.fluid.length > 0\" v-show=\"!collapsed\">\n                            流形入力\n                        </div>\n                        <div class=\"item\" v-for=\"(item, index) in recipeData.input.fluid\" :key=\"index\">\n                            <node-socket\n                                :material=\"item.id\"\n                                :num=\"item.num\"\n                                :direction=\"input\"\n                                :machineInfo=\"machineInfo\">\n                            </node-socket>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"v-separator\"></div>\n                <div class=\"machine-output\">\n                    <div class=\"machine-sockets\" v-if=\"recipeData.output.solid.length > 0\">\n                        <div class=\"item\" v-show=\"!collapsed\">\n                            固形入力\n                        </div>\n                        <div class=\"item\" v-for=\"(item, index) in recipeData.output.solid\" :key=\"index\">\n                            <node-socket\n                                :material=\"item.id\"\n                                :num=\"item.num\"\n                                :direction=\"output\"\n                                :machineInfo=\"machineInfo\">\n                            </node-socket>\n                        </div>\n                    </div>\n                    <div class=\"machine-sockets\" v-if=\"recipeData.output.fluid.length > 0\">\n                        <div class=\"item\" v-show=\"!collapsed\">\n                            流形入力\n                        </div>\n                        <div class=\"item\" v-for=\"(item, index) in recipeData.output.fluid\" :key=\"index\">\n                            <node-socket\n                                :material=\"item.id\"\n                                :num=\"item.num\"\n                                :direction=\"output\"\n                                :machineInfo=\"machineInfo\">\n                            </node-socket>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"h-separator\" v-show=\"!collapsed\"></div>\n            <div class=\"machine-product-time\" v-show=\"!collapsed\">\n                <div class=\"name\">\n                    製造時間：\n                    <span :class=\"{abnormal: abnormalValue}\">\n                        {{ productTime }}s\n                    </span>\n                </div>\n            </div>\n            <div class=\"h-separator\" v-show=\"!collapsed\"></div>\n            <div class=\"machine-overclock\" v-show=\"!collapsed\">\n                <div class=\"name\">\n                    オーバークロック：\n                    <span :class=\"{abnormal: abnormalValue}\">\n                        {{ overclock }} %\n                    </span>\n                </div>\n            </div>\n        </div>\n    </div>\n</template>\n\n<script>\nimport { MouseButton, IODirection, MaterialState } from 'const'\nimport NodeSocket from 'node_editor/NodeSocket'\nimport ConfigLoader from 'models/ConfigLoader'\nimport { ref } from 'vue'\n\nexport default {\n    components: {\n        NodeSocket\n    },\n    props: {\n        machine: { // 設備名\n            type: String,\n            default: '',\n        },\n        machineNum: { // 設備数\n            type: Number,\n            default: 2,\n        },\n        recipe: { // レシピ名\n            type: String,\n            default: '',\n        },\n        overclock: { // オーバークロック数(%)\n            type: Number,\n            default: 0,\n        },\n    },\n    setup() {\n        return {\n            \n        }\n    },\n    computed: {\n        input() {\n            return IODirection.Input;\n        },\n        output() {\n            return IODirection.Output;\n        },\n        showMachineNum() {\n            return this.machineNum > 1;\n        },\n        machineName() {\n            return ConfigLoader.getMachineData(this.machine).Name;\n        },\n        recipeName() {\n            return this.recipe;\n        },\n        recipeData() {\n            const data = ConfigLoader.getRecipeData(this.recipe);\n\n            const input = Object.keys(data.Input).map((v, i) => {\n                return { id: v, num: data.Input[v] };\n            });\n            const output = Object.keys(data.Output).map((v, i) => {\n                return { id: v, num: data.Output[v] };\n            });\n            const materialStateIs = (id, state) => ConfigLoader.getMaterialData(id).State == state;\n            const result = {\n                input: {\n                    solid: input.filter((v, i) => {\n                        return materialStateIs(v.id, MaterialState.Solid)\n                    }),\n                    fluid: input.filter((v, i) => {\n                        return materialStateIs(v.id, MaterialState.Fluid)\n                    }),\n                },\n                output: {\n                    solid: output.filter((v, i) => {\n                        return materialStateIs(v.id, MaterialState.Solid)\n                    }),\n                    fluid: output.filter((v, i) => {\n                        return materialStateIs(v.id, MaterialState.Fluid)\n                    }),\n                },\n                productTime: data.ProductTime,\n            };\n            return result;\n        },\n        productTime() {\n            return this.recipeData.productTime * this.overclock * 0.01;\n        },\n        abnormalValue() {\n            return this.overclock != 100;\n        },\n        machineInfo() {\n            return {\n                machineNum: this.machineNum,\n                overclock: this.overclock,\n                productTime: this.productTime,\n            };\n        },\n    },\n    methods: {\n        // 格納/展開ボタンクリック時\n        onToggleCollapse(e) {\n            this.collapsed = this.collapsed ? false: true;\n        },\n    },\n    data: function() {\n        return {\n            collapsed: false, // 格納状態か\n        }\n    },\n    watch: {\n    }\n}\n</script>\n\n<style scoped>\n    .machine-root {\n        position: absolute;\n        display: flex;\n        flex-direction: column;\n        min-width: 240px;\n        white-space: nowrap;\n        font-weight: bold;\n    }\n    .machine {\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: row;\n        justify-content: center;\n        margin-bottom: 2px;\n        /*position: relative;*/\n    }\n    .machine .name {\n        flex: 1;\n        text-align: center;\n        background: lightgray;\n        border-radius: 4px;\n        border: 1px solid black;\n    }\n    .machine-name {\n        font-weight: bold;\n    }\n    .machine-frame {\n        border: 1px solid black;\n        border-radius: 4px;\n        background: silver;\n        flex: 1;\n        display: flex;\n        flex-direction: column;\n    }\n    .machine-recipe {\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: row;\n        justify-content: center;\n    }\n    .machine-recipe .name {\n        flex: 1;\n        text-align: center;\n    }\n    .machine-inout {\n        flex: 1;\n        display: flex;\n        flex-direction: row;\n    }\n    .machine-input,.machine-output {\n        padding: 4px;\n    }\n    .machine-socket {\n        border: 1px solid black;\n        border-radius: 4px;\n        width: 100%;\n        margin-bottom: 4px;\n    }\n    .h-separator {\n        width: 100%;\n        height: 1px;\n        background: black;\n    }\n    .v-separator {\n        width: 1px;\n        background: black;\n    }\n    .machine-overclock,.machine-product-time {\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: row;\n        justify-content: center;\n    }\n    .machine-overclock,.machine-product-time .name {\n        flex: 1;\n        text-align: center;\n    }\n    .abnormal {\n        color: chocolate;\n    }\n    .machine-sockets {\n        width: 100%;\n    }\n    .machine-sockets .item {\n        width: 100%;\n    }\n\n    .collapse {\n        width: 1rem;\n        height: 1rem;\n        font-weight: 800;\n        position: absolute;\n        right: 4px;\n        top: 2px;\n        bottom: 2px;\n    }\n</style>"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.machine-root[data-v-5be18a8a] {\n        position: absolute;\n        display: flex;\n        flex-direction: column;\n        min-width: 240px;\n        white-space: nowrap;\n        font-weight: bold;\n}\n.machine[data-v-5be18a8a] {\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: row;\n        justify-content: center;\n        margin-bottom: 2px;\n        /*position: relative;*/\n}\n.machine .name[data-v-5be18a8a] {\n        flex: 1;\n        text-align: center;\n        background: lightgray;\n        border-radius: 4px;\n        border: 1px solid black;\n}\n.machine-name[data-v-5be18a8a] {\n        font-weight: bold;\n}\n.machine-frame[data-v-5be18a8a] {\n        border: 1px solid black;\n        border-radius: 4px;\n        background: silver;\n        flex: 1;\n        display: flex;\n        flex-direction: column;\n}\n.machine-recipe[data-v-5be18a8a] {\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: row;\n        justify-content: center;\n}\n.machine-recipe .name[data-v-5be18a8a] {\n        flex: 1;\n        text-align: center;\n}\n.machine-inout[data-v-5be18a8a] {\n        flex: 1;\n        display: flex;\n        flex-direction: row;\n}\n.machine-input[data-v-5be18a8a],.machine-output[data-v-5be18a8a] {\n        padding: 4px;\n}\n.machine-socket[data-v-5be18a8a] {\n        border: 1px solid black;\n        border-radius: 4px;\n        width: 100%;\n        margin-bottom: 4px;\n}\n.h-separator[data-v-5be18a8a] {\n        width: 100%;\n        height: 1px;\n        background: black;\n}\n.v-separator[data-v-5be18a8a] {\n        width: 1px;\n        background: black;\n}\n.machine-overclock[data-v-5be18a8a],.machine-product-time[data-v-5be18a8a] {\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: row;\n        justify-content: center;\n}\n.machine-overclock[data-v-5be18a8a],.machine-product-time .name[data-v-5be18a8a] {\n        flex: 1;\n        text-align: center;\n}\n.abnormal[data-v-5be18a8a] {\n        color: chocolate;\n}\n.machine-sockets[data-v-5be18a8a] {\n        width: 100%;\n}\n.machine-sockets .item[data-v-5be18a8a] {\n        width: 100%;\n}\n.collapse[data-v-5be18a8a] {\n        width: 1rem;\n        height: 1rem;\n        font-weight: 800;\n        position: absolute;\n        right: 4px;\n        top: 2px;\n        bottom: 2px;\n}\n", "",{"version":3,"sources":["webpack://./src/node_editor/MachineNode.vue"],"names":[],"mappings":";AAkNI;QACI,kBAAkB;QAClB,aAAa;QACb,sBAAsB;QACtB,gBAAgB;QAChB,mBAAmB;QACnB,iBAAiB;AACrB;AACA;QACI,WAAW;QACX,YAAY;QACZ,aAAa;QACb,mBAAmB;QACnB,uBAAuB;QACvB,kBAAkB;QAClB,sBAAsB;AAC1B;AACA;QACI,OAAO;QACP,kBAAkB;QAClB,qBAAqB;QACrB,kBAAkB;QAClB,uBAAuB;AAC3B;AACA;QACI,iBAAiB;AACrB;AACA;QACI,uBAAuB;QACvB,kBAAkB;QAClB,kBAAkB;QAClB,OAAO;QACP,aAAa;QACb,sBAAsB;AAC1B;AACA;QACI,WAAW;QACX,YAAY;QACZ,aAAa;QACb,mBAAmB;QACnB,uBAAuB;AAC3B;AACA;QACI,OAAO;QACP,kBAAkB;AACtB;AACA;QACI,OAAO;QACP,aAAa;QACb,mBAAmB;AACvB;AACA;QACI,YAAY;AAChB;AACA;QACI,uBAAuB;QACvB,kBAAkB;QAClB,WAAW;QACX,kBAAkB;AACtB;AACA;QACI,WAAW;QACX,WAAW;QACX,iBAAiB;AACrB;AACA;QACI,UAAU;QACV,iBAAiB;AACrB;AACA;QACI,WAAW;QACX,YAAY;QACZ,aAAa;QACb,mBAAmB;QACnB,uBAAuB;AAC3B;AACA;QACI,OAAO;QACP,kBAAkB;AACtB;AACA;QACI,gBAAgB;AACpB;AACA;QACI,WAAW;AACf;AACA;QACI,WAAW;AACf;AAEA;QACI,WAAW;QACX,YAAY;QACZ,gBAAgB;QAChB,kBAAkB;QAClB,UAAU;QACV,QAAQ;QACR,WAAW;AACf","sourcesContent":["<template>\n    <div class=\"machine-root\">\n        <div class=\"machine\">\n            <div class=\"name\">\n                {{ machineName }}<span v-if=\"showMachineNum\"> x{{ machineNum }}</span>\n            </div>\n            <div class=\"collapse\" @click=\"onToggleCollapse\">\n                <i class=\"far fa-caret-square-up\" v-show=\"collapsed\"></i>\n                <i class=\"far fa-caret-square-down\" v-show=\"!collapsed\"></i>\n            </div>\n        </div>\n        <div class=\"machine-frame\">\n            <div class=\"machine-recipe\" v-show=\"!collapsed\">\n                <div class=\"name\">\n                    {{ recipeName }}\n                </div>\n            </div>\n            <div class=\"h-separator\" v-show=\"!collapsed\"></div>\n            <div class=\"machine-inout\">\n                <div class=\"machine-input\">\n                    <div class=\"machine-sockets\" v-if=\"recipeData.input.solid.length > 0\">\n                        <div class=\"item\" v-show=\"!collapsed\">\n                            固形入力\n                        </div>\n                        <div class=\"item\" v-for=\"(item, index) in recipeData.input.solid\" :key=\"index\">\n                            <node-socket\n                                :material=\"item.id\"\n                                :num=\"item.num\"\n                                :direction=\"input\"\n                                :machineInfo=\"machineInfo\">\n                            </node-socket>\n                        </div>\n                    </div>\n                    <div class=\"machine-sockets\" v-if=\"recipeData.input.fluid.length > 0\">\n                        <div class=\"item\" v-if=\"recipeData.input.fluid.length > 0\" v-show=\"!collapsed\">\n                            流形入力\n                        </div>\n                        <div class=\"item\" v-for=\"(item, index) in recipeData.input.fluid\" :key=\"index\">\n                            <node-socket\n                                :material=\"item.id\"\n                                :num=\"item.num\"\n                                :direction=\"input\"\n                                :machineInfo=\"machineInfo\">\n                            </node-socket>\n                        </div>\n                    </div>\n                </div>\n                <div class=\"v-separator\"></div>\n                <div class=\"machine-output\">\n                    <div class=\"machine-sockets\" v-if=\"recipeData.output.solid.length > 0\">\n                        <div class=\"item\" v-show=\"!collapsed\">\n                            固形入力\n                        </div>\n                        <div class=\"item\" v-for=\"(item, index) in recipeData.output.solid\" :key=\"index\">\n                            <node-socket\n                                :material=\"item.id\"\n                                :num=\"item.num\"\n                                :direction=\"output\"\n                                :machineInfo=\"machineInfo\">\n                            </node-socket>\n                        </div>\n                    </div>\n                    <div class=\"machine-sockets\" v-if=\"recipeData.output.fluid.length > 0\">\n                        <div class=\"item\" v-show=\"!collapsed\">\n                            流形入力\n                        </div>\n                        <div class=\"item\" v-for=\"(item, index) in recipeData.output.fluid\" :key=\"index\">\n                            <node-socket\n                                :material=\"item.id\"\n                                :num=\"item.num\"\n                                :direction=\"output\"\n                                :machineInfo=\"machineInfo\">\n                            </node-socket>\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <div class=\"h-separator\" v-show=\"!collapsed\"></div>\n            <div class=\"machine-product-time\" v-show=\"!collapsed\">\n                <div class=\"name\">\n                    製造時間：\n                    <span :class=\"{abnormal: abnormalValue}\">\n                        {{ productTime }}s\n                    </span>\n                </div>\n            </div>\n            <div class=\"h-separator\" v-show=\"!collapsed\"></div>\n            <div class=\"machine-overclock\" v-show=\"!collapsed\">\n                <div class=\"name\">\n                    オーバークロック：\n                    <span :class=\"{abnormal: abnormalValue}\">\n                        {{ overclock }} %\n                    </span>\n                </div>\n            </div>\n        </div>\n    </div>\n</template>\n\n<script>\nimport { MouseButton, IODirection, MaterialState } from 'const'\nimport NodeSocket from 'node_editor/NodeSocket'\nimport { Config } from 'models/Config'\nimport { ref } from 'vue'\n\nexport default {\n    components: {\n        NodeSocket\n    },\n    props: {\n        machine: { // 設備名\n            type: String,\n            default: '',\n        },\n        machineNum: { // 設備数\n            type: Number,\n            default: 2,\n        },\n        recipe: { // レシピ名\n            type: String,\n            default: '',\n        },\n        overclock: { // オーバークロック数(%)\n            type: Number,\n            default: 0,\n        },\n    },\n    setup() {\n        return {\n            \n        }\n    },\n    computed: {\n        input() {\n            return IODirection.Input;\n        },\n        output() {\n            return IODirection.Output;\n        },\n        showMachineNum() {\n            return this.machineNum > 1;\n        },\n        machineName() {\n            return Config.getMachineData(this.machine).Name;\n        },\n        recipeName() {\n            return this.recipe;\n        },\n        recipeData() {\n            const data = Config.getRecipeData(this.recipe);\n\n            const input = Object.keys(data.Input).map((v, i) => {\n                return { id: v, num: data.Input[v] };\n            });\n            const output = Object.keys(data.Output).map((v, i) => {\n                return { id: v, num: data.Output[v] };\n            });\n            const materialStateIs = (id, state) => Config.getMaterialData(id).State == state;\n            const result = {\n                input: {\n                    solid: input.filter((v, i) => {\n                        return materialStateIs(v.id, MaterialState.Solid)\n                    }),\n                    fluid: input.filter((v, i) => {\n                        return materialStateIs(v.id, MaterialState.Fluid)\n                    }),\n                },\n                output: {\n                    solid: output.filter((v, i) => {\n                        return materialStateIs(v.id, MaterialState.Solid)\n                    }),\n                    fluid: output.filter((v, i) => {\n                        return materialStateIs(v.id, MaterialState.Fluid)\n                    }),\n                },\n                productTime: data.ProductTime,\n            };\n            return result;\n        },\n        productTime() {\n            return this.recipeData.productTime * this.overclock * 0.01;\n        },\n        abnormalValue() {\n            return this.overclock != 100;\n        },\n        machineInfo() {\n            return {\n                machineNum: this.machineNum,\n                overclock: this.overclock,\n                productTime: this.productTime,\n            };\n        },\n    },\n    methods: {\n        // 格納/展開ボタンクリック時\n        onToggleCollapse(e) {\n            this.collapsed = this.collapsed ? false: true;\n        },\n    },\n    data: function() {\n        return {\n            collapsed: false, // 格納状態か\n        }\n    },\n    watch: {\n    }\n}\n</script>\n\n<style scoped>\n    .machine-root {\n        position: absolute;\n        display: flex;\n        flex-direction: column;\n        min-width: 240px;\n        white-space: nowrap;\n        font-weight: bold;\n    }\n    .machine {\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: row;\n        justify-content: center;\n        margin-bottom: 2px;\n        /*position: relative;*/\n    }\n    .machine .name {\n        flex: 1;\n        text-align: center;\n        background: lightgray;\n        border-radius: 4px;\n        border: 1px solid black;\n    }\n    .machine-name {\n        font-weight: bold;\n    }\n    .machine-frame {\n        border: 1px solid black;\n        border-radius: 4px;\n        background: silver;\n        flex: 1;\n        display: flex;\n        flex-direction: column;\n    }\n    .machine-recipe {\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: row;\n        justify-content: center;\n    }\n    .machine-recipe .name {\n        flex: 1;\n        text-align: center;\n    }\n    .machine-inout {\n        flex: 1;\n        display: flex;\n        flex-direction: row;\n    }\n    .machine-input,.machine-output {\n        padding: 4px;\n    }\n    .machine-socket {\n        border: 1px solid black;\n        border-radius: 4px;\n        width: 100%;\n        margin-bottom: 4px;\n    }\n    .h-separator {\n        width: 100%;\n        height: 1px;\n        background: black;\n    }\n    .v-separator {\n        width: 1px;\n        background: black;\n    }\n    .machine-overclock,.machine-product-time {\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: row;\n        justify-content: center;\n    }\n    .machine-overclock,.machine-product-time .name {\n        flex: 1;\n        text-align: center;\n    }\n    .abnormal {\n        color: chocolate;\n    }\n    .machine-sockets {\n        width: 100%;\n    }\n    .machine-sockets .item {\n        width: 100%;\n    }\n\n    .collapse {\n        width: 1rem;\n        height: 1rem;\n        font-weight: 800;\n        position: absolute;\n        right: 4px;\n        top: 2px;\n        bottom: 2px;\n    }\n</style>"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -31675,7 +31914,34 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.material-content {\n        flex: 1;\n        display: flex;\n        flex-direction: column;\n        padding: 2px;\n}\n.material-top {\n        display: flex;\n        flex-direction: row;\n}\n.material-name {\n        flex: 1;\n}\n.material-num {\n        padding-left: 4px;\n}\n.material-bottom {\n        display: flex;\n        flex-direction: column;\n}\n.material-rate {\n        display: flex;\n        flex-direction: column;\n        align-items: center;\n        width: 100%;\n        text-align: center;\n        font-size: 0.8rem;\n        height: 1rem;\n}\n.material-rate .frame {\n        align-items: center;\n        border-radius: 4px;\n        background: whitesmoke;\n        padding: 0px 8px;\n        line-height: 1rem;\n}\n.abnormal {\n        color: chocolate;\n}\n", "",{"version":3,"sources":["webpack://./src/node_editor/MaterialView.vue"],"names":[],"mappings":";AAsEI;QACI,OAAO;QACP,aAAa;QACb,sBAAsB;QACtB,YAAY;AAChB;AACA;QACI,aAAa;QACb,mBAAmB;AACvB;AACA;QACI,OAAO;AACX;AACA;QACI,iBAAiB;AACrB;AACA;QACI,aAAa;QACb,sBAAsB;AAC1B;AACA;QACI,aAAa;QACb,sBAAsB;QACtB,mBAAmB;QACnB,WAAW;QACX,kBAAkB;QAClB,iBAAiB;QACjB,YAAY;AAChB;AACA;QACI,mBAAmB;QACnB,kBAAkB;QAClB,sBAAsB;QACtB,gBAAgB;QAChB,iBAAiB;AACrB;AACA;QACI,gBAAgB;AACpB","sourcesContent":["<template>\n    <div class=\"material-frame\">\n        <div class=\"material-top\">\n            <div class=\"material-name\">\n                <span>{{ name }}</span>\n            </div>\n            <div class=\"material-num\">\n                <span v-if=\"isSolid\">x</span>{{ num }}<span v-if=\"isFluid\">㎡</span>\n            </div>\n        </div>\n        <div class=\"material-bottom\">\n            <div class=\"material-rate\" :class=\"{abnormal: abnormalValue}\">\n                <span class=\"frame\">{{ rate }}<span v-if=\"isFluid\">㎡</span>/分</span>\n            </div>\n        </div>\n    </div>\n</template>\n\n<script>\nimport { MaterialState } from 'const'\nimport Calculator from 'models/Calculator'\nimport ConfigLoader from 'models/ConfigLoader'\n\nexport default {\n    props: {\n        material: { // 素材ID\n            type: String,\n            default: '',\n        },\n        num: { // 素材の必要数\n            type: Number,\n            default: 1,\n        },\n        machineInfo: { // 設備情報\n            type: Object,\n            default: {},\n        },\n    },\n    computed: {\n        // 素材名\n        name() {\n            return ConfigLoader.getMaterialData(this.material).Name;\n        },\n        // 物質の状態\n        state() {\n            return ConfigLoader.getMaterialData(this.material).State;\n        },\n        // 固形を表す定義\n        isSolid() {\n            return this.state == MaterialState.Solid;\n        },\n        // 流形を表す定義\n        isFluid() {\n            return this.state == MaterialState.Fluid;\n        },\n        // 効率\n        rate() {\n            console.log(this.num, this.machineInfo.productTime);\n            return Math.floor(\n                Calculator.productRate(this.num, this.machineInfo.productTime) * 100) * 0.01 * this.machineInfo.machineNum;\n        },\n        // オーバークロック時かどうか\n        abnormalValue() {\n            return this.machineInfo.overclock != 100;\n        },\n    },\n}\n</script>\n\n<style>\n    .material-content {\n        flex: 1;\n        display: flex;\n        flex-direction: column;\n        padding: 2px;\n    }\n    .material-top {\n        display: flex;\n        flex-direction: row;\n    }\n    .material-name {\n        flex: 1;\n    }\n    .material-num {\n        padding-left: 4px;\n    }\n    .material-bottom {\n        display: flex;\n        flex-direction: column;\n    }\n    .material-rate {\n        display: flex;\n        flex-direction: column;\n        align-items: center;\n        width: 100%;\n        text-align: center;\n        font-size: 0.8rem;\n        height: 1rem;\n    }\n    .material-rate .frame {\n        align-items: center;\n        border-radius: 4px;\n        background: whitesmoke;\n        padding: 0px 8px;\n        line-height: 1rem;\n    }\n    .abnormal {\n        color: chocolate;\n    }\n</style>"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.material-content {\n        flex: 1;\n        display: flex;\n        flex-direction: column;\n        padding: 2px;\n}\n.material-top {\n        display: flex;\n        flex-direction: row;\n}\n.material-name {\n        flex: 1;\n}\n.material-num {\n        padding-left: 4px;\n}\n.material-bottom {\n        display: flex;\n        flex-direction: column;\n}\n.material-rate {\n        display: flex;\n        flex-direction: column;\n        align-items: center;\n        width: 100%;\n        text-align: center;\n        font-size: 0.8rem;\n        height: 1rem;\n}\n.material-rate .frame {\n        align-items: center;\n        border-radius: 4px;\n        background: whitesmoke;\n        padding: 0px 8px;\n        line-height: 1rem;\n}\n.abnormal {\n        color: chocolate;\n}\n", "",{"version":3,"sources":["webpack://./src/node_editor/MaterialView.vue"],"names":[],"mappings":";AAsEI;QACI,OAAO;QACP,aAAa;QACb,sBAAsB;QACtB,YAAY;AAChB;AACA;QACI,aAAa;QACb,mBAAmB;AACvB;AACA;QACI,OAAO;AACX;AACA;QACI,iBAAiB;AACrB;AACA;QACI,aAAa;QACb,sBAAsB;AAC1B;AACA;QACI,aAAa;QACb,sBAAsB;QACtB,mBAAmB;QACnB,WAAW;QACX,kBAAkB;QAClB,iBAAiB;QACjB,YAAY;AAChB;AACA;QACI,mBAAmB;QACnB,kBAAkB;QAClB,sBAAsB;QACtB,gBAAgB;QAChB,iBAAiB;AACrB;AACA;QACI,gBAAgB;AACpB","sourcesContent":["<template>\n    <div class=\"material-frame\">\n        <div class=\"material-top\">\n            <div class=\"material-name\">\n                <span>{{ name }}</span>\n            </div>\n            <div class=\"material-num\">\n                <span v-if=\"isSolid\">x</span>{{ num }}<span v-if=\"isFluid\">㎡</span>\n            </div>\n        </div>\n        <div class=\"material-bottom\">\n            <div class=\"material-rate\" :class=\"{abnormal: abnormalValue}\">\n                <span class=\"frame\">{{ rate }}<span v-if=\"isFluid\">㎡</span>/分</span>\n            </div>\n        </div>\n    </div>\n</template>\n\n<script>\nimport { MaterialState } from 'const'\nimport Calculator from 'models/Calculator'\nimport { Config } from 'models/Config'\n\nexport default {\n    props: {\n        material: { // 素材ID\n            type: String,\n            default: '',\n        },\n        num: { // 素材の必要数\n            type: Number,\n            default: 1,\n        },\n        machineInfo: { // 設備情報\n            type: Object,\n            default: {},\n        },\n    },\n    computed: {\n        // 素材名\n        name() {\n            return Config.getMaterialData(this.material).Name;\n        },\n        // 物質の状態\n        state() {\n            return Config.getMaterialData(this.material).State;\n        },\n        // 固形を表す定義\n        isSolid() {\n            return this.state == MaterialState.Solid;\n        },\n        // 流形を表す定義\n        isFluid() {\n            return this.state == MaterialState.Fluid;\n        },\n        // 効率\n        rate() {\n            console.log(this.num, this.machineInfo.productTime);\n            return Math.floor(\n                Calculator.productRate(this.num, this.machineInfo.productTime) * 100) * 0.01 * this.machineInfo.machineNum;\n        },\n        // オーバークロック時かどうか\n        abnormalValue() {\n            return this.machineInfo.overclock != 100;\n        },\n    },\n}\n</script>\n\n<style>\n    .material-content {\n        flex: 1;\n        display: flex;\n        flex-direction: column;\n        padding: 2px;\n    }\n    .material-top {\n        display: flex;\n        flex-direction: row;\n    }\n    .material-name {\n        flex: 1;\n    }\n    .material-num {\n        padding-left: 4px;\n    }\n    .material-bottom {\n        display: flex;\n        flex-direction: column;\n    }\n    .material-rate {\n        display: flex;\n        flex-direction: column;\n        align-items: center;\n        width: 100%;\n        text-align: center;\n        font-size: 0.8rem;\n        height: 1rem;\n    }\n    .material-rate .frame {\n        align-items: center;\n        border-radius: 4px;\n        background: whitesmoke;\n        padding: 0px 8px;\n        line-height: 1rem;\n    }\n    .abnormal {\n        color: chocolate;\n    }\n</style>"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeDetail.vue?vue&type=style&index=0&id=2a015dde&lang=css":
+/*!************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeDetail.vue?vue&type=style&index=0&id=2a015dde&lang=css ***!
+  \************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ "./node_modules/css-loader/dist/runtime/cssWithMappingToString.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.detail-frame {\n        display: flex;\n        flex-direction: column;\n        height: 100%;\n        padding: 4px;\n}\n.node-name {\n        font-weight: bold;\n}\n.parameter-list {\n        flex: 1;\n}\n.value-item {\n        display: flex;\n        flex-direction: row;\n}\n.flex-1 {\n        flex: 1;\n}\n.w100 {\n        width: 100%;\n}\n.slider-number {\n        width: 48px;\n        text-align: center;\n}\n    /* スピンボタンを常に表示 */\ninput[type=number]::-webkit-inner-spin-button {\n        opacity: 1\n}\n", "",{"version":3,"sources":["webpack://./src/node_editor/NodeDetail.vue"],"names":[],"mappings":";AA8EI;QACI,aAAa;QACb,sBAAsB;QACtB,YAAY;QACZ,YAAY;AAChB;AACA;QACI,iBAAiB;AACrB;AACA;QACI,OAAO;AACX;AACA;QACI,aAAa;QACb,mBAAmB;AACvB;AACA;QACI,OAAO;AACX;AACA;QACI,WAAW;AACf;AACA;QACI,WAAW;QACX,kBAAkB;AACtB;IACA,gBAAgB;AAChB;QACI;AACJ","sourcesContent":["<template>\n    <div class=\"detail-frame\">\n        <div class=\"node-name\">{{ name }}</div>\n        <hr />\n        <div class=\"parameter-list\">\n            <div class=\"parameter\"  v-for=\"(property, index) in properties\" :key=\"index\">\n                <div class=\"label\">{{ property.label }}</div>\n                <div class=\"value-area\">\n                    <div v-if=\"property.type == 'select'\" class=\"value-item\">\n                        <select v-model=\"property.value\" class=\"w100\">\n                            <option disabled value=\"\">未選択</option>\n                            <option v-for=\"option in property.options\" :key=\"option\" :value=\"option\">{{ option }}</option>\n                        </select>\n                    </div>\n                    <div v-if=\"property.type == 'spinbox'\" class=\"value-item\">\n                        <input type=\"number\" v-model=\"property.value\" class=\"w100\"\n                            :min=\"property.min\" :max=\"property.max\" :step=\"property.step\" />\n                    </div>\n                    <div v-if=\"property.type == 'slider'\" class=\"value-item\">\n                        <input type=\"range\" v-model=\"property.value\" class=\"flex-1\"\n                            name=\"volume\" :min=\"property.min\" :max=\"property.max\" :step=\"property.step\" />\n                        <input type=\"number\" class=\"slider-number\" v-model=\"property.value\" :min=\"property.min\" :max=\"property.max\" />\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</template>\n\n<script>\nimport { Config } from 'models/Config'\n\nexport default {\n    methods: {\n        /*selectMachineNode: function(node) {\n            this.selectingNode = node;\n            this.name = '設備ノード';\n            this.properties\n        }*/\n    },\n    data: function() {\n        return {\n            selectingNode: null,\n            name: '設備ノード',\n            properties: [\n                {\n                    label: '設備名',\n                    type: 'select',\n                    value: Config.getMachineData('Blender').Name,\n                    options: Config.getMachineNameList(),\n                },\n                {\n                    label: '設備数',\n                    type: 'spinbox',\n                    value: 1,\n                    min: 1,\n                },\n                {\n                    label: 'レシピ名',\n                    type: 'select',\n                    value: '代替: 混合ターボ燃料',\n                    options: Config.getRecipeNameForMachine('Blender'),\n                },\n                {\n                    label: 'オーバークロック数',\n                    type: 'slider',\n                    value: 100,\n                    min: 0,\n                    max: 250,\n                    step: 50,\n                },\n            ]\n        }\n    }\n}\n</script>\n\n<style>\n    .detail-frame {\n        display: flex;\n        flex-direction: column;\n        height: 100%;\n        padding: 4px;\n    }\n    .node-name {\n        font-weight: bold;\n    }\n    .parameter-list {\n        flex: 1;\n    }\n    .value-item {\n        display: flex;\n        flex-direction: row;\n    }\n    .flex-1 {\n        flex: 1;\n    }\n    .w100 {\n        width: 100%;\n    }\n    .slider-number {\n        width: 48px;\n        text-align: center;\n    }\n    /* スピンボタンを常に表示 */\n    input[type=number]::-webkit-inner-spin-button {\n        opacity: 1\n    }\n</style>"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -31702,7 +31968,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.root[data-v-680127a6] {\n        /* 親要素いっぱいに表示 */\n        width: 100%;\n        height: 100%;\n}\n.frame[data-v-680127a6] {\n        /* 親要素いっぱいに表示 */\n        width: 100%;\n        height: 100%;\n        /* スクローラブル(バーは出さずにマウス操作でスクロール) */\n        overflow: hidden;\n        /* 位置指定の基準要素とする */\n        position: relative;\n        /* テキスト選択不可にする */\n        user-select: none;\n}\n.grid-sheet[data-v-680127a6] {\n        /* 方眼紙ライクな表示 */\n        background-color: whitesmoke;\n        opacity: 0.8;\n        background-image:   linear-gradient(silver 2px, transparent 2px),\n                            linear-gradient(90deg, silver 2px, transparent 2px),\n                            linear-gradient(silver 1px, transparent 1px),\n                            linear-gradient(90deg, silver 1px, whitesmoke 1px);\n        background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;\n}\n.origin[data-v-680127a6] {\n        width: 2px;\n        height: 2px;\n        margin: 0px;\n        padding: 0px;\n        position: absolute;\n        left: 0px;\n        top: 0px;\n        background: red;\n}\n.scrolling[data-v-680127a6] {\n        cursor: grab;\n}\n", "",{"version":3,"sources":["webpack://./src/node_editor/NodeEditor.vue"],"names":[],"mappings":";AAsHI;QACI,eAAe;QACf,WAAW;QACX,YAAY;AAChB;AACA;QACI,eAAe;QACf,WAAW;QACX,YAAY;QACZ,gCAAgC;QAChC,gBAAgB;QAChB,iBAAiB;QACjB,kBAAkB;QAClB,gBAAgB;QAChB,iBAAiB;AACrB;AACA;QACI,cAAc;QACd,4BAA4B;QAC5B,YAAY;QACZ;;;8EAGsE;QACtE,2DAA2D;AAC/D;AACA;QACI,UAAU;QACV,WAAW;QACX,WAAW;QACX,YAAY;QACZ,kBAAkB;QAClB,SAAS;QACT,QAAQ;QACR,eAAe;AACnB;AACA;QACI,YAAY;AAChB","sourcesContent":["<template>\n    <div class=\"root\">\n        <div class=\"frame\" :class=\"{ 'grid-sheet': showGrid, scrolling: scrollMode }\" ref=\"frame\"\n                :style=\"{ 'background-position-x': left, 'background-position-y': top}\">\n            <div class=\"origin\" :style=\"{ left: left, top: top }\">\n                <div style=\"width: 50px; color: red;\">原点</div>\n                <draw-board></draw-board>\n            </div>\n        </div>\n    </div>\n</template>\n\n<script>\nimport { ref } from 'vue'\nimport { Point } from 'node_editor/logics/point'\nimport { KeyCode, EditorControlState } from 'const'\nimport { mapGetters, mapMutations } from 'vuex'\nimport DrawBoard from 'node_editor/DrawBoard'\n\nexport default {\n    components: {\n        DrawBoard,\n    },\n    props: {\n        showGrid: Boolean,\n    },\n    setup: function() {\n        const frame = ref(null);\n        return {\n            frame,\n            position: Point(),\n        }\n    },\n    mounted: function() {\n        console.log('mounted', this);\n        // 次 Tick 時に構築\n        this.$nextTick(() => {\n            // イベント登録\n            window.addEventListener('keydown',   this.onKeyAction);\n            window.addEventListener('keyup',     this.onKeyAction);\n            window.addEventListener('mousedown', this.onMouseAction);\n            window.addEventListener('mouseup',   this.onMouseAction);\n            window.addEventListener('mousemove', this.onMouseAction);\n        });\n    },\n    beforeUnmount: function() {\n        // イベント解消\n        window.removeEventListener('keydown',   this.onKeyAction);\n        window.removeEventListener('keyup',     this.onKeyAction);\n        window.removeEventListener('mousedown', this.onMouseAction);\n        window.removeEventListener('mouseup',   this.onMouseAction);\n        window.removeEventListener('mousemove', this.onMouseAction);\n    },\n    computed: {\n        ...mapGetters('EditorStatus', {\n            isDebugMode: 'isDebugMode', // デバッグモードか\n            isIdling: 'isIdling', // 無操作中か\n            isScrolling: 'isScrolling', // スクロール中か\n        }),\n        left() { return this.position.x.value + 'px'; },\n        top() { return this.position.y.value + 'px'; },\n    },\n    methods: {\n        ...mapMutations('EditorStatus', {\n            changeControlState: 'changeState', // 操作ステータス変更\n        }),\n        // キー操作定義\n        onKeyAction: function(e) {\n            // Spaceキー入力中は「スクロールモード」にする\n            if (e.type == 'keydown' && e.keyCode == KeyCode.Space && this.isIdling) {\n                this.scrollMode = true;\n                this.changeControlState(EditorControlState.Scrolling);\n            }\n            else if (e.type == 'keyup' && this.isScrolling) {\n                this.scrollMode = false;\n                this.changeControlState(EditorControlState.Idling)\n            }\n        },\n        // マウス操作定義\n        onMouseAction: function(e) {\n            // マウス左ドラッグでスクロール操作\n            if (e.type == 'mousedown') {\n                this.page.x = e.pageX;\n                this.page.y = e.pageY;\n                if (this.scrollMode) {\n                    this.scrolling = true;\n                }\n            }\n            else if (e.type == 'mouseup') {\n                this.scrolling = false;\n            }\n            else if (e.type == 'mousemove') {\n                if (this.scrolling) {\n                    const diff = {\n                        x: e.pageX - this.page.x,\n                        y: e.pageY - this.page.y,\n                    };\n                    this.position.move(diff.x, diff.y);\n                }\n                this.page.x = e.pageX;\n                this.page.y = e.pageY;\n            }\n        },\n    },\n    data: function() {\n        return {\n            page: { // ページ上のカーソル位置\n                x: 0,\n                y: 0,\n            },\n            scrollMode: false,\n            scrolling: false,\n        }\n    }\n}\n</script>\n\n<style scoped>\n    .root {\n        /* 親要素いっぱいに表示 */\n        width: 100%;\n        height: 100%;\n    }\n    .frame {\n        /* 親要素いっぱいに表示 */\n        width: 100%;\n        height: 100%;\n        /* スクローラブル(バーは出さずにマウス操作でスクロール) */\n        overflow: hidden;\n        /* 位置指定の基準要素とする */\n        position: relative;\n        /* テキスト選択不可にする */\n        user-select: none;\n    }\n    .grid-sheet {\n        /* 方眼紙ライクな表示 */\n        background-color: whitesmoke;\n        opacity: 0.8;\n        background-image:   linear-gradient(silver 2px, transparent 2px),\n                            linear-gradient(90deg, silver 2px, transparent 2px),\n                            linear-gradient(silver 1px, transparent 1px),\n                            linear-gradient(90deg, silver 1px, whitesmoke 1px);\n        background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;\n    }\n    .origin {\n        width: 2px;\n        height: 2px;\n        margin: 0px;\n        padding: 0px;\n        position: absolute;\n        left: 0px;\n        top: 0px;\n        background: red;\n    }\n    .scrolling {\n        cursor: grab;\n    }\n</style>"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.root[data-v-680127a6] {\n        /* 親要素いっぱいに表示 */\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: row;\n}\n.frame[data-v-680127a6] {\n        flex: 1;\n        /* 親要素いっぱいに表示 */\n        width: 100%;\n        height: 100%;\n        /* スクローラブル(バーは出さずにマウス操作でスクロール) */\n        overflow: hidden;\n        /* 位置指定の基準要素とする */\n        position: relative;\n        /* テキスト選択不可にする */\n        user-select: none;\n}\n.grid-sheet[data-v-680127a6] {\n        /* 方眼紙ライクな表示 */\n        background-color: whitesmoke;\n        opacity: 0.8;\n        background-image:   linear-gradient(silver 2px, transparent 2px),\n                            linear-gradient(90deg, silver 2px, transparent 2px),\n                            linear-gradient(silver 1px, transparent 1px),\n                            linear-gradient(90deg, silver 1px, whitesmoke 1px);\n        background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;\n}\n.origin[data-v-680127a6] {\n        width: 2px;\n        height: 2px;\n        margin: 0px;\n        padding: 0px;\n        position: absolute;\n        left: 0px;\n        top: 0px;\n        background: red;\n}\n.scrolling[data-v-680127a6] {\n        cursor: grab;\n}\n.detail[data-v-680127a6] {\n        border-left: 1px solid black;\n        min-width: 240px;\n}\n", "",{"version":3,"sources":["webpack://./src/node_editor/NodeEditor.vue"],"names":[],"mappings":";AA2HI;QACI,eAAe;QACf,WAAW;QACX,YAAY;QACZ,aAAa;QACb,mBAAmB;AACvB;AACA;QACI,OAAO;QACP,eAAe;QACf,WAAW;QACX,YAAY;QACZ,gCAAgC;QAChC,gBAAgB;QAChB,iBAAiB;QACjB,kBAAkB;QAClB,gBAAgB;QAChB,iBAAiB;AACrB;AACA;QACI,cAAc;QACd,4BAA4B;QAC5B,YAAY;QACZ;;;8EAGsE;QACtE,2DAA2D;AAC/D;AACA;QACI,UAAU;QACV,WAAW;QACX,WAAW;QACX,YAAY;QACZ,kBAAkB;QAClB,SAAS;QACT,QAAQ;QACR,eAAe;AACnB;AACA;QACI,YAAY;AAChB;AACA;QACI,4BAA4B;QAC5B,gBAAgB;AACpB","sourcesContent":["<template>\n    <div class=\"root\">\n        <div class=\"frame\" :class=\"{ 'grid-sheet': showGrid, scrolling: scrollMode }\" ref=\"frame\"\n                :style=\"{ 'background-position-x': left, 'background-position-y': top}\">\n            <div class=\"origin\" :style=\"{ left: left, top: top }\">\n                <div style=\"width: 50px; color: red;\">原点</div>\n                <draw-board></draw-board>\n            </div>\n        </div>\n        <div class=\"detail\">\n            <node-detail></node-detail>\n        </div>\n    </div>\n</template>\n\n<script>\nimport { ref } from 'vue'\nimport { Point } from 'node_editor/logics/point'\nimport { KeyCode, EditorControlState } from 'const'\nimport { mapGetters, mapMutations } from 'vuex'\nimport DrawBoard from 'node_editor/DrawBoard'\nimport NodeDetail from 'node_editor/NodeDetail'\n\nexport default {\n    components: {\n        DrawBoard,\n        NodeDetail,\n    },\n    props: {\n        showGrid: Boolean,\n    },\n    setup: function() {\n        const frame = ref(null);\n        return {\n            frame,\n            position: Point(),\n        }\n    },\n    mounted: function() {\n        console.log('mounted', this);\n        // 次 Tick 時に構築\n        this.$nextTick(() => {\n            // イベント登録\n            window.addEventListener('keydown',   this.onKeyAction);\n            window.addEventListener('keyup',     this.onKeyAction);\n            window.addEventListener('mousedown', this.onMouseAction);\n            window.addEventListener('mouseup',   this.onMouseAction);\n            window.addEventListener('mousemove', this.onMouseAction);\n        });\n    },\n    beforeUnmount: function() {\n        // イベント解消\n        window.removeEventListener('keydown',   this.onKeyAction);\n        window.removeEventListener('keyup',     this.onKeyAction);\n        window.removeEventListener('mousedown', this.onMouseAction);\n        window.removeEventListener('mouseup',   this.onMouseAction);\n        window.removeEventListener('mousemove', this.onMouseAction);\n    },\n    computed: {\n        ...mapGetters('EditorStatus', {\n            isDebugMode: 'isDebugMode', // デバッグモードか\n            isIdling: 'isIdling', // 無操作中か\n            isScrolling: 'isScrolling', // スクロール中か\n        }),\n        left() { return this.position.x.value + 'px'; },\n        top() { return this.position.y.value + 'px'; },\n    },\n    methods: {\n        ...mapMutations('EditorStatus', {\n            changeControlState: 'changeState', // 操作ステータス変更\n        }),\n        // キー操作定義\n        onKeyAction: function(e) {\n            // Spaceキー入力中は「スクロールモード」にする\n            if (e.type == 'keydown' && e.keyCode == KeyCode.Space && this.isIdling) {\n                this.scrollMode = true;\n                this.changeControlState(EditorControlState.Scrolling);\n            }\n            else if (e.type == 'keyup' && this.isScrolling) {\n                this.scrollMode = false;\n                this.changeControlState(EditorControlState.Idling)\n            }\n        },\n        // マウス操作定義\n        onMouseAction: function(e) {\n            // マウス左ドラッグでスクロール操作\n            if (e.type == 'mousedown') {\n                this.page.x = e.pageX;\n                this.page.y = e.pageY;\n                if (this.scrollMode) {\n                    this.scrolling = true;\n                }\n            }\n            else if (e.type == 'mouseup') {\n                this.scrolling = false;\n            }\n            else if (e.type == 'mousemove') {\n                if (this.scrolling) {\n                    const diff = {\n                        x: e.pageX - this.page.x,\n                        y: e.pageY - this.page.y,\n                    };\n                    this.position.move(diff.x, diff.y);\n                }\n                this.page.x = e.pageX;\n                this.page.y = e.pageY;\n            }\n        },\n    },\n    data: function() {\n        return {\n            page: { // ページ上のカーソル位置\n                x: 0,\n                y: 0,\n            },\n            scrollMode: false,\n            scrolling: false,\n        }\n    }\n}\n</script>\n\n<style scoped>\n    .root {\n        /* 親要素いっぱいに表示 */\n        width: 100%;\n        height: 100%;\n        display: flex;\n        flex-direction: row;\n    }\n    .frame {\n        flex: 1;\n        /* 親要素いっぱいに表示 */\n        width: 100%;\n        height: 100%;\n        /* スクローラブル(バーは出さずにマウス操作でスクロール) */\n        overflow: hidden;\n        /* 位置指定の基準要素とする */\n        position: relative;\n        /* テキスト選択不可にする */\n        user-select: none;\n    }\n    .grid-sheet {\n        /* 方眼紙ライクな表示 */\n        background-color: whitesmoke;\n        opacity: 0.8;\n        background-image:   linear-gradient(silver 2px, transparent 2px),\n                            linear-gradient(90deg, silver 2px, transparent 2px),\n                            linear-gradient(silver 1px, transparent 1px),\n                            linear-gradient(90deg, silver 1px, whitesmoke 1px);\n        background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;\n    }\n    .origin {\n        width: 2px;\n        height: 2px;\n        margin: 0px;\n        padding: 0px;\n        position: absolute;\n        left: 0px;\n        top: 0px;\n        background: red;\n    }\n    .scrolling {\n        cursor: grab;\n    }\n    .detail {\n        border-left: 1px solid black;\n        min-width: 240px;\n    }\n</style>"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -31729,7 +31995,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.slot-frame[data-v-2aa0f733] {\n        border: 1px solid black;\n        border-radius: 4px;\n        width: 100%;\n        margin-bottom: 4px;\n        display: flex;\n        flex-direction: row;\n}\n.slot-input[data-v-2aa0f733],.slot-output[data-v-2aa0f733] {\n        display: flex;\n        flex-direction: row;\n        width: 20px;\n        padding: 2px;\n}\n.slot-point[data-v-2aa0f733] {\n        display: flex;\n        flex-direction: column;\n}\n.slot-point .mark[data-v-2aa0f733] {\n        width: 16px;\n        height: 16px;\n        border: 1px solid black;\n}\n.slot-point .mark.slot-solid[data-v-2aa0f733] {\n        border-radius: 0px;\n}\n.slot-point .mark.slot-fluid[data-v-2aa0f733] {\n        border-radius: 16px;\n}\n.slot-content[data-v-2aa0f733] {\n        flex: 1;\n        padding: 2px;\n}\n.slot-content material-view[data-v-2aa0f733] {\n        width: 100%;\n}\n.abnormal[data-v-2aa0f733] {\n        color: chocolate;\n}\n.v-separator[data-v-2aa0f733] {\n        width: 1px;\n        background: black;\n}\n.mouseover-possible[data-v-2aa0f733] {\n        border-color: green;\n}\n.mouseover-impossible[data-v-2aa0f733] {\n        border-color: red;\n}\n.socketAccent[data-v-2aa0f733] {\n        background: black;\n}\n", "",{"version":3,"sources":["webpack://./src/node_editor/NodeSocket.vue"],"names":[],"mappings":";AA0KI;QACI,uBAAuB;QACvB,kBAAkB;QAClB,WAAW;QACX,kBAAkB;QAClB,aAAa;QACb,mBAAmB;AACvB;AACA;QACI,aAAa;QACb,mBAAmB;QACnB,WAAW;QACX,YAAY;AAChB;AACA;QACI,aAAa;QACb,sBAAsB;AAC1B;AACA;QACI,WAAW;QACX,YAAY;QACZ,uBAAuB;AAC3B;AACA;QACI,kBAAkB;AACtB;AACA;QACI,mBAAmB;AACvB;AACA;QACI,OAAO;QACP,YAAY;AAChB;AACA;QACI,WAAW;AACf;AACA;QACI,gBAAgB;AACpB;AACA;QACI,UAAU;QACV,iBAAiB;AACrB;AACA;QACI,mBAAmB;AACvB;AACA;QACI,iBAAiB;AACrB;AACA;QACI,iBAAiB;AACrB","sourcesContent":["<template>\n    <div class=\"slot-frame\" :style=\"frameClass\"\n            @mousedown=\"onMouseAction\"\n            @mouseup=\"onMouseAction\"\n            @mouseenter=\"onMouseAction\"\n            @mouseleave=\"onMouseAction\">\n        <div class=\"slot-input\" v-if=\"isInput\">\n            <div class=\"slot-point\">\n                <div ref=\"inputSocket\" v-if=\"isSolid\"\n                    class=\"mark slot-solid\" :class=\"{socketAccent: isSocketAccent}\"></div>\n                <div ref=\"inputSocket\" v-if=\"isFluid\"\n                    class=\"mark slot-fluid\" :class=\"{socketAccent: isSocketAccent}\"></div>\n            </div>\n        </div>\n        <div class=\"v-separator\" v-if=\"isInput\"></div>\n        <div class=\"slot-content\">\n            <material-view ref=\"material\" :material=\"material\" :num=\"num\" :machineInfo=\"machineInfo\"></material-view>\n        </div>\n        <div class=\"v-separator\" v-if=\"isOutput\"></div>\n        <div class=\"slot-input\" v-if=\"isOutput\" ref=\"outputSocket\">\n            <div class=\"slot-point\">\n                <div ref=\"outputSocket\" v-if=\"isSolid\"\n                    class=\"mark slot-solid\" :class=\"{socketAccent: isSocketAccent}\"></div>\n                <div ref=\"outputSocket\" v-if=\"isFluid\"\n                    class=\"mark slot-fluid\" :class=\"{socketAccent: isSocketAccent}\"></div>\n            </div>\n        </div>\n    </div>\n</template>\n\n<script>\nimport { IODirection, MouseButton, MaterialState, EditorControlState } from 'const'\nimport ConfigLoader from 'models/ConfigLoader'\nimport { mapGetters, mapMutations } from 'vuex'\nimport MaterialView from 'node_editor/MaterialView'\n\nexport default {\n    components: {\n        MaterialView\n    },\n    props: {\n        direction: { // ソケットの向き\n            type: String,\n            default: IODirection.Input,\n        },\n        material: { // 素材ID\n            type: String,\n            default: '',\n        },\n        num: { // 素材数\n            type: Number,\n            default: 1,\n        },\n        machineInfo: { // 設備情報\n            type: Object,\n            default: {},\n        },\n    },\n    computed: {\n        ...mapGetters('EditorStatus', {\n            isIdling: 'isIdling', // 無操作中か\n            isConnecting: 'isConnecting', // 運搬ライン接続中か\n            originPoint: 'originPoint', // ページ上のエディタの原点の位置\n        }),\n        // 入力側を示す定義名\n        isInput() {\n            return this.direction == IODirection.Input;\n        },\n        // 出力側を示す定義名\n        isOutput() {\n            return this.direction == IODirection.Output;\n        },\n        // 固形を表す定義\n        isSolid() {\n            return this.state == MaterialState.Solid;\n        },\n        // 流形を表す定義\n        isFluid() {\n            return this.state == MaterialState.Fluid;\n        },\n        // 物質の状態\n        state() {\n            return ConfigLoader.getMaterialData(this.material).State;\n        },\n    },\n    methods: {\n        ...mapMutations('EditorStatus', {\n            changeControlState: 'changeState', // 操作ステータス変更\n        }),\n        // 外向け関数\n        getSocketPoint: function() {\n            let rect = new DOMRect();\n            /*\n            if (this.isInput) {\n                rect = this.$refs.inputSocket.getBoundingClientRect();\n            }\n            else if (this.isOutput) {\n                rect = this.$refs.outputSocket.getBoundingClientRect();\n            }\n            */\n            return {\n                x: rect.x + rect.width * 0.5 - this.originPoint.x,\n                y: rect.y + rect.height * 0.5 - this.originPoint.y,\n            };\n        },\n        // 連結可能か(同じ素材か)\n        canConnectLine: function(material) {\n            if (!this.material) return true; // 素材指定無しの場合はなんでもOK\n            return this.material === material;\n        },\n        // 運搬ラインとソケット連結\n        connectLine: function(line) {\n            if (line in this.joinningLines) return;\n\n            this.joinningLines.push(line);\n        },\n        onMoved: function() {\n            // ノードが移動したら繋がっているラインにも伝達\n            this.joinningLines.forEach(v => v.onMoved());\n        },\n        onMouseAction: function(e) {\n            /*\n            // マウス左ボタンが押されたら接続開始を通知\n            if (e.type == 'mousedown' && e.button == MouseButton.Left) {\n                if (this.isIdling) {\n                    this.changeControlState(EditorControlState.Connect);\n                    this.$emit('startconnection', {\n                        event: e,\n                        socket: this, // 同じソケットへの接続を回避するため設定\n                        socketPos: this.getSocketPoint(),\n                    });\n                }\n            }\n            // マウス左ボタンが離されたら接続終了を通知\n            else if (e.type == 'mouseup' && e.button == MouseButton.Left) {\n                if (this.isConnecting) {\n                    this.$emit('endconnection', {\n                        event: e,\n                        socket: this, // 同じソケットへの接続を回避するため設定\n                        socketPos: this.getSocketPoint(),\n                    });\n                }\n            }\n            // マウスホバーでソケット強調表示\n            else*/ if (e.type == 'mouseenter') {\n                this.isSocketAccent = true;\n                e.stopPropagation();\n                return false;\n            }\n            else if (e.type == 'mouseleave') {\n                this.isSocketAccent = false;\n                e.stopPropagation();\n                return false;\n            };\n        }\n    },\n    data: function() {\n        return {\n            joinningLines: [], // 接続されている運搬ラインリスト\n            frameClass: { // フレーム部に適用するマウス操作によるクラス群\n                'mouseover-possible': false,\n                'mouseover-impossible': false,\n            },\n            isSocketAccent: false, // ソケット部分の強調フラグ\n        };\n    }\n}\n</script>\n\n<style scoped>\n    .slot-frame {\n        border: 1px solid black;\n        border-radius: 4px;\n        width: 100%;\n        margin-bottom: 4px;\n        display: flex;\n        flex-direction: row;\n    }\n    .slot-input,.slot-output {\n        display: flex;\n        flex-direction: row;\n        width: 20px;\n        padding: 2px;\n    }\n    .slot-point {\n        display: flex;\n        flex-direction: column;\n    }\n    .slot-point .mark {\n        width: 16px;\n        height: 16px;\n        border: 1px solid black;\n    }\n    .slot-point .mark.slot-solid {\n        border-radius: 0px;\n    }\n    .slot-point .mark.slot-fluid {\n        border-radius: 16px;\n    }\n    .slot-content {\n        flex: 1;\n        padding: 2px;\n    }\n    .slot-content material-view {\n        width: 100%;\n    }\n    .abnormal {\n        color: chocolate;\n    }\n    .v-separator {\n        width: 1px;\n        background: black;\n    }\n    .mouseover-possible {\n        border-color: green;\n    }\n    .mouseover-impossible {\n        border-color: red;\n    }\n    .socketAccent {\n        background: black;\n    }\n</style>"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.slot-frame[data-v-2aa0f733] {\n        border: 1px solid black;\n        border-radius: 4px;\n        width: 100%;\n        margin-bottom: 4px;\n        display: flex;\n        flex-direction: row;\n}\n.slot-input[data-v-2aa0f733],.slot-output[data-v-2aa0f733] {\n        display: flex;\n        flex-direction: row;\n        width: 20px;\n        padding: 2px;\n}\n.slot-point[data-v-2aa0f733] {\n        display: flex;\n        flex-direction: column;\n}\n.slot-point .mark[data-v-2aa0f733] {\n        width: 16px;\n        height: 16px;\n        border: 1px solid black;\n}\n.slot-point .mark.slot-solid[data-v-2aa0f733] {\n        border-radius: 0px;\n}\n.slot-point .mark.slot-fluid[data-v-2aa0f733] {\n        border-radius: 16px;\n}\n.slot-content[data-v-2aa0f733] {\n        flex: 1;\n        padding: 2px;\n}\n.slot-content material-view[data-v-2aa0f733] {\n        width: 100%;\n}\n.abnormal[data-v-2aa0f733] {\n        color: chocolate;\n}\n.v-separator[data-v-2aa0f733] {\n        width: 1px;\n        background: black;\n}\n.mouseover-possible[data-v-2aa0f733] {\n        border-color: green;\n}\n.mouseover-impossible[data-v-2aa0f733] {\n        border-color: red;\n}\n.socketAccent[data-v-2aa0f733] {\n        background: black;\n}\n", "",{"version":3,"sources":["webpack://./src/node_editor/NodeSocket.vue"],"names":[],"mappings":";AA0KI;QACI,uBAAuB;QACvB,kBAAkB;QAClB,WAAW;QACX,kBAAkB;QAClB,aAAa;QACb,mBAAmB;AACvB;AACA;QACI,aAAa;QACb,mBAAmB;QACnB,WAAW;QACX,YAAY;AAChB;AACA;QACI,aAAa;QACb,sBAAsB;AAC1B;AACA;QACI,WAAW;QACX,YAAY;QACZ,uBAAuB;AAC3B;AACA;QACI,kBAAkB;AACtB;AACA;QACI,mBAAmB;AACvB;AACA;QACI,OAAO;QACP,YAAY;AAChB;AACA;QACI,WAAW;AACf;AACA;QACI,gBAAgB;AACpB;AACA;QACI,UAAU;QACV,iBAAiB;AACrB;AACA;QACI,mBAAmB;AACvB;AACA;QACI,iBAAiB;AACrB;AACA;QACI,iBAAiB;AACrB","sourcesContent":["<template>\n    <div class=\"slot-frame\" :style=\"frameClass\"\n            @mousedown=\"onMouseAction\"\n            @mouseup=\"onMouseAction\"\n            @mouseenter=\"onMouseAction\"\n            @mouseleave=\"onMouseAction\">\n        <div class=\"slot-input\" v-if=\"isInput\">\n            <div class=\"slot-point\">\n                <div ref=\"inputSocket\" v-if=\"isSolid\"\n                    class=\"mark slot-solid\" :class=\"{socketAccent: isSocketAccent}\"></div>\n                <div ref=\"inputSocket\" v-if=\"isFluid\"\n                    class=\"mark slot-fluid\" :class=\"{socketAccent: isSocketAccent}\"></div>\n            </div>\n        </div>\n        <div class=\"v-separator\" v-if=\"isInput\"></div>\n        <div class=\"slot-content\">\n            <material-view ref=\"material\" :material=\"material\" :num=\"num\" :machineInfo=\"machineInfo\"></material-view>\n        </div>\n        <div class=\"v-separator\" v-if=\"isOutput\"></div>\n        <div class=\"slot-input\" v-if=\"isOutput\" ref=\"outputSocket\">\n            <div class=\"slot-point\">\n                <div ref=\"outputSocket\" v-if=\"isSolid\"\n                    class=\"mark slot-solid\" :class=\"{socketAccent: isSocketAccent}\"></div>\n                <div ref=\"outputSocket\" v-if=\"isFluid\"\n                    class=\"mark slot-fluid\" :class=\"{socketAccent: isSocketAccent}\"></div>\n            </div>\n        </div>\n    </div>\n</template>\n\n<script>\nimport { IODirection, MouseButton, MaterialState, EditorControlState } from 'const'\nimport { Config } from 'models/Config'\nimport { mapGetters, mapMutations } from 'vuex'\nimport MaterialView from 'node_editor/MaterialView'\n\nexport default {\n    components: {\n        MaterialView\n    },\n    props: {\n        direction: { // ソケットの向き\n            type: String,\n            default: IODirection.Input,\n        },\n        material: { // 素材ID\n            type: String,\n            default: '',\n        },\n        num: { // 素材数\n            type: Number,\n            default: 1,\n        },\n        machineInfo: { // 設備情報\n            type: Object,\n            default: {},\n        },\n    },\n    computed: {\n        ...mapGetters('EditorStatus', {\n            isIdling: 'isIdling', // 無操作中か\n            isConnecting: 'isConnecting', // 運搬ライン接続中か\n            originPoint: 'originPoint', // ページ上のエディタの原点の位置\n        }),\n        // 入力側を示す定義名\n        isInput() {\n            return this.direction == IODirection.Input;\n        },\n        // 出力側を示す定義名\n        isOutput() {\n            return this.direction == IODirection.Output;\n        },\n        // 固形を表す定義\n        isSolid() {\n            return this.state == MaterialState.Solid;\n        },\n        // 流形を表す定義\n        isFluid() {\n            return this.state == MaterialState.Fluid;\n        },\n        // 物質の状態\n        state() {\n            return Config.getMaterialData(this.material).State;\n        },\n    },\n    methods: {\n        ...mapMutations('EditorStatus', {\n            changeControlState: 'changeState', // 操作ステータス変更\n        }),\n        // 外向け関数\n        getSocketPoint: function() {\n            let rect = new DOMRect();\n            /*\n            if (this.isInput) {\n                rect = this.$refs.inputSocket.getBoundingClientRect();\n            }\n            else if (this.isOutput) {\n                rect = this.$refs.outputSocket.getBoundingClientRect();\n            }\n            */\n            return {\n                x: rect.x + rect.width * 0.5 - this.originPoint.x,\n                y: rect.y + rect.height * 0.5 - this.originPoint.y,\n            };\n        },\n        // 連結可能か(同じ素材か)\n        canConnectLine: function(material) {\n            if (!this.material) return true; // 素材指定無しの場合はなんでもOK\n            return this.material === material;\n        },\n        // 運搬ラインとソケット連結\n        connectLine: function(line) {\n            if (line in this.joinningLines) return;\n\n            this.joinningLines.push(line);\n        },\n        onMoved: function() {\n            // ノードが移動したら繋がっているラインにも伝達\n            this.joinningLines.forEach(v => v.onMoved());\n        },\n        onMouseAction: function(e) {\n            /*\n            // マウス左ボタンが押されたら接続開始を通知\n            if (e.type == 'mousedown' && e.button == MouseButton.Left) {\n                if (this.isIdling) {\n                    this.changeControlState(EditorControlState.Connect);\n                    this.$emit('startconnection', {\n                        event: e,\n                        socket: this, // 同じソケットへの接続を回避するため設定\n                        socketPos: this.getSocketPoint(),\n                    });\n                }\n            }\n            // マウス左ボタンが離されたら接続終了を通知\n            else if (e.type == 'mouseup' && e.button == MouseButton.Left) {\n                if (this.isConnecting) {\n                    this.$emit('endconnection', {\n                        event: e,\n                        socket: this, // 同じソケットへの接続を回避するため設定\n                        socketPos: this.getSocketPoint(),\n                    });\n                }\n            }\n            // マウスホバーでソケット強調表示\n            else*/ if (e.type == 'mouseenter') {\n                this.isSocketAccent = true;\n                e.stopPropagation();\n                return false;\n            }\n            else if (e.type == 'mouseleave') {\n                this.isSocketAccent = false;\n                e.stopPropagation();\n                return false;\n            };\n        }\n    },\n    data: function() {\n        return {\n            joinningLines: [], // 接続されている運搬ラインリスト\n            frameClass: { // フレーム部に適用するマウス操作によるクラス群\n                'mouseover-possible': false,\n                'mouseover-impossible': false,\n            },\n            isSocketAccent: false, // ソケット部分の強調フラグ\n        };\n    }\n}\n</script>\n\n<style scoped>\n    .slot-frame {\n        border: 1px solid black;\n        border-radius: 4px;\n        width: 100%;\n        margin-bottom: 4px;\n        display: flex;\n        flex-direction: row;\n    }\n    .slot-input,.slot-output {\n        display: flex;\n        flex-direction: row;\n        width: 20px;\n        padding: 2px;\n    }\n    .slot-point {\n        display: flex;\n        flex-direction: column;\n    }\n    .slot-point .mark {\n        width: 16px;\n        height: 16px;\n        border: 1px solid black;\n    }\n    .slot-point .mark.slot-solid {\n        border-radius: 0px;\n    }\n    .slot-point .mark.slot-fluid {\n        border-radius: 16px;\n    }\n    .slot-content {\n        flex: 1;\n        padding: 2px;\n    }\n    .slot-content material-view {\n        width: 100%;\n    }\n    .abnormal {\n        color: chocolate;\n    }\n    .v-separator {\n        width: 1px;\n        background: black;\n    }\n    .mouseover-possible {\n        border-color: green;\n    }\n    .mouseover-impossible {\n        border-color: red;\n    }\n    .socketAccent {\n        background: black;\n    }\n</style>"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -31878,6 +32144,35 @@ if (false) {}
 _MaterialView_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "src/node_editor/MaterialView.vue"
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_MaterialView_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./src/node_editor/NodeDetail.vue":
+/*!****************************************!*\
+  !*** ./src/node_editor/NodeDetail.vue ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _NodeDetail_vue_vue_type_template_id_2a015dde__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./NodeDetail.vue?vue&type=template&id=2a015dde */ "./src/node_editor/NodeDetail.vue?vue&type=template&id=2a015dde");
+/* harmony import */ var _NodeDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./NodeDetail.vue?vue&type=script&lang=js */ "./src/node_editor/NodeDetail.vue?vue&type=script&lang=js");
+/* harmony import */ var _NodeDetail_vue_vue_type_style_index_0_id_2a015dde_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./NodeDetail.vue?vue&type=style&index=0&id=2a015dde&lang=css */ "./src/node_editor/NodeDetail.vue?vue&type=style&index=0&id=2a015dde&lang=css");
+
+
+
+
+;
+_NodeDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _NodeDetail_vue_vue_type_template_id_2a015dde__WEBPACK_IMPORTED_MODULE_0__.render
+/* hot reload */
+if (false) {}
+
+_NodeDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "src/node_editor/NodeDetail.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_NodeDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
 
 /***/ }),
 
@@ -32035,6 +32330,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/node_editor/NodeDetail.vue?vue&type=script&lang=js":
+/*!****************************************************************!*\
+  !*** ./src/node_editor/NodeDetail.vue?vue&type=script&lang=js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_NodeDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_NodeDetail_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib/index.js!../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./NodeDetail.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeDetail.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./src/node_editor/NodeEditor.vue?vue&type=script&lang=js":
 /*!****************************************************************!*\
   !*** ./src/node_editor/NodeEditor.vue?vue&type=script&lang=js ***!
@@ -32144,6 +32455,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_MaterialView_vue_vue_type_template_id_7715c28a__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_MaterialView_vue_vue_type_template_id_7715c28a__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib/index.js!../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./MaterialView.vue?vue&type=template&id=7715c28a */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/MaterialView.vue?vue&type=template&id=7715c28a");
+
+
+/***/ }),
+
+/***/ "./src/node_editor/NodeDetail.vue?vue&type=template&id=2a015dde":
+/*!**********************************************************************!*\
+  !*** ./src/node_editor/NodeDetail.vue?vue&type=template&id=2a015dde ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_NodeDetail_vue_vue_type_template_id_2a015dde__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_NodeDetail_vue_vue_type_template_id_2a015dde__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib/index.js!../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./NodeDetail.vue?vue&type=template&id=2a015dde */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeDetail.vue?vue&type=template&id=2a015dde");
 
 
 /***/ }),
@@ -32259,6 +32586,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_MaterialView_vue_vue_type_style_index_0_id_7715c28a_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_MaterialView_vue_vue_type_style_index_0_id_7715c28a_lang_css__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
 /* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_MaterialView_vue_vue_type_style_index_0_id_7715c28a_lang_css__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_MaterialView_vue_vue_type_style_index_0_id_7715c28a_lang_css__WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
+
+
+/***/ }),
+
+/***/ "./src/node_editor/NodeDetail.vue?vue&type=style&index=0&id=2a015dde&lang=css":
+/*!************************************************************************************!*\
+  !*** ./src/node_editor/NodeDetail.vue?vue&type=style&index=0&id=2a015dde&lang=css ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_NodeDetail_vue_vue_type_style_index_0_id_2a015dde_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-style-loader/index.js!../../node_modules/css-loader/dist/cjs.js!../../node_modules/vue-loader/dist/stylePostLoader.js!../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./NodeDetail.vue?vue&type=style&index=0&id=2a015dde&lang=css */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeDetail.vue?vue&type=style&index=0&id=2a015dde&lang=css");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_NodeDetail_vue_vue_type_style_index_0_id_2a015dde_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_NodeDetail_vue_vue_type_style_index_0_id_2a015dde_lang_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_NodeDetail_vue_vue_type_style_index_0_id_2a015dde_lang_css__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_NodeDetail_vue_vue_type_style_index_0_id_2a015dde_lang_css__WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
 /* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
 
 
@@ -32394,6 +32738,27 @@ if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(/*! !../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
 var update = add("66f0b153", content, false, {});
+// Hot Module Replacement
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeDetail.vue?vue&type=style&index=0&id=2a015dde&lang=css":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeDetail.vue?vue&type=style&index=0&id=2a015dde&lang=css ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js!../../node_modules/vue-loader/dist/stylePostLoader.js!../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./NodeDetail.vue?vue&type=style&index=0&id=2a015dde&lang=css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/NodeDetail.vue?vue&type=style&index=0&id=2a015dde&lang=css");
+if(content.__esModule) content = content.default;
+if(typeof content === 'string') content = [[module.id, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(/*! !../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
+var update = add("64c98457", content, false, {});
 // Hot Module Replacement
 if(false) {}
 

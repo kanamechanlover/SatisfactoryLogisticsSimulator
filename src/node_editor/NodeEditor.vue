@@ -7,6 +7,9 @@
                 <draw-board></draw-board>
             </div>
         </div>
+        <div class="detail">
+            <node-detail></node-detail>
+        </div>
     </div>
 </template>
 
@@ -16,10 +19,12 @@ import { Point } from 'node_editor/logics/point'
 import { KeyCode, EditorControlState } from 'const'
 import { mapGetters, mapMutations } from 'vuex'
 import DrawBoard from 'node_editor/DrawBoard'
+import NodeDetail from 'node_editor/NodeDetail'
 
 export default {
     components: {
         DrawBoard,
+        NodeDetail,
     },
     props: {
         showGrid: Boolean,
@@ -120,8 +125,11 @@ export default {
         /* 親要素いっぱいに表示 */
         width: 100%;
         height: 100%;
+        display: flex;
+        flex-direction: row;
     }
     .frame {
+        flex: 1;
         /* 親要素いっぱいに表示 */
         width: 100%;
         height: 100%;
@@ -154,5 +162,9 @@ export default {
     }
     .scrolling {
         cursor: grab;
+    }
+    .detail {
+        border-left: 1px solid black;
+        min-width: 240px;
     }
 </style>

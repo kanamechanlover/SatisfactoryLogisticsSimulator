@@ -19,7 +19,7 @@
 <script>
 import { MaterialState } from 'const'
 import Calculator from 'models/Calculator'
-import ConfigLoader from 'models/ConfigLoader'
+import { Config } from 'models/Config'
 
 export default {
     props: {
@@ -39,11 +39,11 @@ export default {
     computed: {
         // 素材名
         name() {
-            return ConfigLoader.getMaterialData(this.material).Name;
+            return Config.getMaterialData(this.material).Name;
         },
         // 物質の状態
         state() {
-            return ConfigLoader.getMaterialData(this.material).State;
+            return Config.getMaterialData(this.material).State;
         },
         // 固形を表す定義
         isSolid() {

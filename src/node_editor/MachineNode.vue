@@ -100,7 +100,7 @@
 <script>
 import { MouseButton, IODirection, MaterialState } from 'const'
 import NodeSocket from 'node_editor/NodeSocket'
-import ConfigLoader from 'models/ConfigLoader'
+import { Config } from 'models/Config'
 import { ref } from 'vue'
 
 export default {
@@ -141,13 +141,13 @@ export default {
             return this.machineNum > 1;
         },
         machineName() {
-            return ConfigLoader.getMachineData(this.machine).Name;
+            return Config.getMachineData(this.machine).Name;
         },
         recipeName() {
             return this.recipe;
         },
         recipeData() {
-            const data = ConfigLoader.getRecipeData(this.recipe);
+            const data = Config.getRecipeData(this.recipe);
 
             const input = Object.keys(data.Input).map((v, i) => {
                 return { id: v, num: data.Input[v] };
@@ -155,7 +155,7 @@ export default {
             const output = Object.keys(data.Output).map((v, i) => {
                 return { id: v, num: data.Output[v] };
             });
-            const materialStateIs = (id, state) => ConfigLoader.getMaterialData(id).State == state;
+            const materialStateIs = (id, state) => Config.getMaterialData(id).State == state;
             const result = {
                 input: {
                     solid: input.filter((v, i) => {

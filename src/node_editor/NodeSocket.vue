@@ -30,7 +30,7 @@
 
 <script>
 import { IODirection, MouseButton, MaterialState, EditorControlState } from 'const'
-import ConfigLoader from 'models/ConfigLoader'
+import { Config } from 'models/Config'
 import { mapGetters, mapMutations } from 'vuex'
 import MaterialView from 'node_editor/MaterialView'
 
@@ -80,7 +80,7 @@ export default {
         },
         // 物質の状態
         state() {
-            return ConfigLoader.getMaterialData(this.material).State;
+            return Config.getMaterialData(this.material).State;
         },
     },
     methods: {
