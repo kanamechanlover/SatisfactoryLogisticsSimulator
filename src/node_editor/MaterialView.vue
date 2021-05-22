@@ -89,11 +89,16 @@ export default {
         flex-direction: column;
     }
     .material-rate {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
         text-align: center;
         font-size: 0.8rem;
+        height: 1rem;
     }
     .material-rate .frame {
-        display: inline-block;
+        align-items: center;
         border-radius: 4px;
         background: whitesmoke;
         padding: 0px 8px;
