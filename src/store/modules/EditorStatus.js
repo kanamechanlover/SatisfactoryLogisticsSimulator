@@ -2,7 +2,7 @@ import { EditorControlState } from 'const'
 
 const state = {
     debugMode: false, // デバッグモードフラグ
-    controlState: EditorControlState.Idle, // 操作ステータス
+    controlState: EditorControlState.Idling, // 操作ステータス
     originPoint: {x: 0, y: 0}, // ページ上のエディタの原点の位置
 }
 
@@ -11,16 +11,16 @@ const getters = {
         return state.debugMode;
     },
     isIdling(state) { // 無操作中
-        return state.controlState === EditorControlState.Idle;
+        return state.controlState === EditorControlState.Idling;
     },
     isScrolling(state) { // スクロール中
-        return state.controlState === EditorControlState.Scroll;
+        return state.controlState === EditorControlState.Scrolling;
     },
-    isDraggingNode(state) { // ノードをドラッグ中か
-        return state.controlState === EditorControlState.DraggingNode;
+    isNodeDragging(state) { // ノードをドラッグ中か
+        return state.controlState === EditorControlState.NodeDragging;
     },
     isConnecting(state) { // 運搬ライン接続操作中か
-        return state.controlState === EditorControlState.Connect;
+        return state.controlState === EditorControlState.Connecting;
     },
     originPoint(state) { // ページ上のエディタの原点の位置
         return state.originPoint;

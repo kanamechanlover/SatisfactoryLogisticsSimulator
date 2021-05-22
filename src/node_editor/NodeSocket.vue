@@ -90,12 +90,14 @@ export default {
         // 外向け関数
         getSocketPoint: function() {
             let rect = new DOMRect();
+            /*
             if (this.isInput) {
                 rect = this.$refs.inputSocket.getBoundingClientRect();
             }
             else if (this.isOutput) {
                 rect = this.$refs.outputSocket.getBoundingClientRect();
             }
+            */
             return {
                 x: rect.x + rect.width * 0.5 - this.originPoint.x,
                 y: rect.y + rect.height * 0.5 - this.originPoint.y,
@@ -117,6 +119,7 @@ export default {
             this.joinningLines.forEach(v => v.onMoved());
         },
         onMouseAction: function(e) {
+            /*
             // マウス左ボタンが押されたら接続開始を通知
             if (e.type == 'mousedown' && e.button == MouseButton.Left) {
                 if (this.isIdling) {
@@ -139,7 +142,7 @@ export default {
                 }
             }
             // マウスホバーでソケット強調表示
-            else if (e.type == 'mouseenter') {
+            else*/ if (e.type == 'mouseenter') {
                 this.isSocketAccent = true;
                 e.stopPropagation();
                 return false;

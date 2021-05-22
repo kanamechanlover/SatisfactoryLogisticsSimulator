@@ -3,7 +3,8 @@
         <div class="frame" :class="{ 'grid-sheet': showGrid, scrolling: scrollMode }" ref="frame"
                 :style="{ 'background-position-x': left, 'background-position-y': top}">
             <div class="origin" :style="{ left: left, top: top }">
-                <span>どや</span>
+                <div style="width: 50px; color: red;">原点</div>
+                <draw-board></draw-board>
             </div>
         </div>
     </div>
@@ -12,10 +13,13 @@
 <script>
 import { ref } from 'vue'
 import { Point } from 'node_editor/logics/point'
-import { KeyCode } from 'const'
+import { KeyCode, EditorControlState } from 'const'
+import { mapGetters, mapMutations } from 'vuex'
+import DrawBoard from 'node_editor/DrawBoard'
 
 export default {
     components: {
+        DrawBoard,
     },
     props: {
         showGrid: Boolean,
@@ -48,21 +52,36 @@ export default {
         window.removeEventListener('mousemove', this.onMouseAction);
     },
     computed: {
+        ...mapGetters('EditorStatus', {
+            isDebugMode: 'isDebugMode', // デバッグモードか
+            isIdling: 'isIdling', // 無操作中か
+            isScrolling: 'isScrolling', // スクロール中か
+        }),
         left() { return this.position.x.value + 'px'; },
         top() { return this.position.y.value + 'px'; },
     },
     methods: {
+        ...mapMutations('EditorStatus', {
+            changeControlState: 'changeState', // 操作ステータス変更
+        }),
         // キー操作定義
         onKeyAction: function(e) {
             // Spaceキー入力中は「スクロールモード」にする
-            if (e.keyCode == KeyCode.Space && !this.scrolling) {
-                this.scrollMode = (e.type == 'keydown');
+            if (e.type == 'keydown' && e.keyCode == KeyCode.Space && this.isIdling) {
+                this.scrollMode = true;
+                this.changeControlState(EditorControlState.Scrolling);
+            }
+            else if (e.type == 'keyup' && this.isScrolling) {
+                this.scrollMode = false;
+                this.changeControlState(EditorControlState.Idling)
             }
         },
         // マウス操作定義
         onMouseAction: function(e) {
             // マウス左ドラッグでスクロール操作
             if (e.type == 'mousedown') {
+                this.page.x = e.pageX;
+                this.page.y = e.pageY;
                 if (this.scrollMode) {
                     this.scrolling = true;
                 }

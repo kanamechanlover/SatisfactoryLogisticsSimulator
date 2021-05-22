@@ -1,5 +1,5 @@
 <template>
-    <div class="machine-root" :style="{ left: left, top: top }" :ref="setRefs($event, 'root')" @mousedown="onMouseAction">
+    <div class="machine-root">
         <div class="machine">
             <div class="name">
                 {{ machineName }}<span v-if="showMachineNum"> x{{ machineNum }}</span>
@@ -22,15 +22,12 @@
                         <div class="item" v-show="!collapsed">
                             固形入力
                         </div>
-                        <div class="item"
-                                v-for="(item, index) in recipeData.input.solid" :key="index">
-                            <node-socket :ref="setSockets(el, 'inputSolidSockets')"
+                        <div class="item" v-for="(item, index) in recipeData.input.solid" :key="index">
+                            <node-socket
                                 :material="item.id"
                                 :num="item.num"
                                 :direction="input"
-                                :machineInfo="machineInfo"
-                                @startconnection="$emit('startconnection', $event)"
-                                @endconnection="$emit('endconnection', $event)">
+                                :machineInfo="machineInfo">
                             </node-socket>
                         </div>
                     </div>
@@ -38,15 +35,12 @@
                         <div class="item" v-if="recipeData.input.fluid.length > 0" v-show="!collapsed">
                             流形入力
                         </div>
-                        <div class="item" :ref="setSockets($event, 'inputFluidSockets')"
-                                v-for="(item, index) in recipeData.input.fluid" :key="index">
+                        <div class="item" v-for="(item, index) in recipeData.input.fluid" :key="index">
                             <node-socket
                                 :material="item.id"
                                 :num="item.num"
                                 :direction="input"
-                                :machineInfo="machineInfo"
-                                @startconnection="$emit('startconnection', $event)"
-                                @endconnection="$emit('endconnection', $event)">
+                                :machineInfo="machineInfo">
                             </node-socket>
                         </div>
                     </div>
@@ -57,15 +51,12 @@
                         <div class="item" v-show="!collapsed">
                             固形入力
                         </div>
-                        <div class="item" :ref="setSockets($event, 'outputSolidSockets')"
-                                v-for="(item, index) in recipeData.output.solid" :key="index">
+                        <div class="item" v-for="(item, index) in recipeData.output.solid" :key="index">
                             <node-socket
                                 :material="item.id"
                                 :num="item.num"
                                 :direction="output"
-                                :machineInfo="machineInfo"
-                                @startconnection="$emit('startconnection', $event)"
-                                @endconnection="$emit('endconnection', $event)">
+                                :machineInfo="machineInfo">
                             </node-socket>
                         </div>
                     </div>
@@ -73,15 +64,12 @@
                         <div class="item" v-show="!collapsed">
                             流形入力
                         </div>
-                        <div class="item" :ref="setSockets($event, 'outputFluidSockets')"
-                                v-for="(item, index) in recipeData.output.fluid" :key="index">
+                        <div class="item" v-for="(item, index) in recipeData.output.fluid" :key="index">
                             <node-socket
                                 :material="item.id"
                                 :num="item.num"
                                 :direction="output"
-                                :machineInfo="machineInfo"
-                                @startconnection="$emit('startconnection', $event)"
-                                @endconnection="$emit('endconnection', $event)">
+                                :machineInfo="machineInfo">
                             </node-socket>
                         </div>
                     </div>
@@ -120,10 +108,6 @@ export default {
         NodeSocket
     },
     props: {
-        position: { // 表示する座標(ノードの左上)
-            type: Object,
-            default: {},
-        },
         machine: { // 設備名
             type: String,
             default: '',
@@ -141,13 +125,12 @@ export default {
             default: 0,
         },
     },
+    setup() {
+        return {
+            
+        }
+    },
     computed: {
-        left() {
-            return this.position.x + 'px';
-        },
-        top() {
-            return this.position.y + 'px';
-        },
         input() {
             return IODirection.Input;
         },
@@ -172,21 +155,22 @@ export default {
             const output = Object.keys(data.Output).map((v, i) => {
                 return { id: v, num: data.Output[v] };
             });
+            const materialStateIs = (id, state) => ConfigLoader.getMaterialData(id).State == state;
             const result = {
                 input: {
                     solid: input.filter((v, i) => {
-                        return ConfigLoader.getMaterialData(v.id).State == MaterialState.Solid
+                        return materialStateIs(v.id, MaterialState.Solid)
                     }),
                     fluid: input.filter((v, i) => {
-                        return ConfigLoader.getMaterialData(v.id).State == MaterialState.Fluid
+                        return materialStateIs(v.id, MaterialState.Fluid)
                     }),
                 },
                 output: {
                     solid: output.filter((v, i) => {
-                        return ConfigLoader.getMaterialData(v.id).State == MaterialState.Solid
+                        return materialStateIs(v.id, MaterialState.Solid)
                     }),
                     fluid: output.filter((v, i) => {
-                        return ConfigLoader.getMaterialData(v.id).State == MaterialState.Fluid
+                        return materialStateIs(v.id, MaterialState.Fluid)
                     }),
                 },
                 productTime: data.ProductTime,
@@ -208,44 +192,6 @@ export default {
         },
     },
     methods: {
-        setRefs: function(el, name) {
-            this.refs[name] = el;
-        },
-        setSockets: function(el, name) {
-            console.log(el, name);
-            this.refs[name] = el.children[0];
-        },
-        getSocketPoint: function() {
-            console.log('root', this.root);
-            const selfRect = this.root.getBoundingClientRect();
-            const socketRelativePos = this.inputSolidSockets[0].getSocketPoint(selfRect);
-            return {
-                x: this.position.x + socketRelativePos.x,
-                y: this.position.y + socketRelativePos.y,
-            };
-        },
-        onMoved: function() {
-            console.log('inputSolidSockets', this.inputSolidSockets);
-            // 自身が移動したらソケットにも伝達
-            this.inputSolidSockets.forEach(v => {
-                v.onMoved();
-            });
-            this.inputFluidSockets.forEach(v => v.onMoved());
-            this.outputSolidSockets.forEach(v => v.onMoved());
-            this.outputFluidSockets.forEach(v => v.onMoved());
-        },
-        onMouseAction: function(e) {
-            // マウス左ボタン操作でドラッグ状態更新
-            if (e.button == MouseButton.Left) {
-                if (e.type == 'mousedown') {
-                    this.dragging = true;
-                    this.$emit('nodemousedown', {
-                        event: e,
-                        node: this,
-                    });
-                }
-            }
-        },
         // 格納/展開ボタンクリック時
         onToggleCollapse(e) {
             this.collapsed = this.collapsed ? false: true;
@@ -253,15 +199,10 @@ export default {
     },
     data: function() {
         return {
-            dragging: false, // 自身をドラッグ中か
             collapsed: false, // 格納状態か
-            refs: {}, // $refs の代わり
         }
     },
     watch: {
-        position(v) {
-            this.onMoved();
-        },
     }
 }
 </script>

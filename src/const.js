@@ -119,10 +119,10 @@ export const KeyCode = {
 
 // エディタの操作状態
 export const EditorControlState = {
-    Idle: 'Idle', // 無操作中
-    Scroll: 'Scroll', // スクロール中
-    DraggingNode: 'DraggingNode', // ノードドラッグ中
-    Connect: 'Connect', // 運搬ライン接続中
+    Idling: 'Idling', // 無操作中
+    Scrolling: 'Scrolling', // スクロール中
+    NodeDragging: 'NodeDragging', // ノードドラッグ中
+    Connecting: 'Connecting', // 運搬ライン接続中
 };
 
 // 入出力定義
@@ -136,10 +136,4 @@ export const IODirection = {
 export const MaterialState = {
     Solid: 'Solid', // 固形
     Fluid: 'Fluid', // 流形
-};
-
-// 配置コンポーネントタイプ
-export const ComponentType = {
-    MachineNode: 'MachineNode',
-    LogisticsLine: 'LogisticsLine',
 };

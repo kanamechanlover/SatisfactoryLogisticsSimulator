@@ -5,35 +5,48 @@
                 <p>メニュー部</p>
             </div>
             <div class="debugModeToggle">
+                {{ controlState }}
                 <span><input type="checkbox" v-model="showGrid" />グリッド表示</span>
                 <span><input type="checkbox" v-model="isDebugMode" />デバッグモード</span>
             </div>
         </div>
         <div id="editor">
-            <node-editor ref="editor" :showGrid="showGrid" />
-            <test-content :x="100" :y="100">
-                Not Default
-            </test-content>
+            <div v-show="loading" class="loading">
+                <div class="text">設定読込中 ...</div>
+            </div>
+            <node-editor v-if="!loading" ref="editor" :showGrid="showGrid" />
         </div>
     </div>
 </template>
 
 <script>
-import NodeEditor from 'node_editor/NodeEditor'
+import { ref } from 'vue'
 import { mapState, mapMutations } from 'vuex'
-
-import TestContent from 'components/TestContent'
-import MachineNode from 'node_editor/MachineNode'
+import NodeEditor from 'node_editor/NodeEditor'
+import ConfigLoader from 'models/ConfigLoader'
 
 export default {
     components: {
-        NodeEditor,
-        TestContent,
-        MachineNode
+        NodeEditor
+    },
+    setup() {
+        const editor = ref(null);
+
+        return {
+            editor,
+        };
+    },
+    mounted() {
+        this.$nextTick(() => {
+            ConfigLoader.loadConfig(() => {
+                this.loading = false;
+            });
+        });
     },
     computed: {
         ...mapState('EditorStatus', {
-            debugMode: 'debugMode'
+            debugMode: 'debugMode',
+            controlState: 'controlState',
         }),
     },
     methods: {
@@ -86,8 +99,9 @@ export default {
         border: 1px solid black;
     }
     #loading {
+        width: 100%;
+        height: 100%;
         background: whitesmoke;
-        flex: 1;
         border: 1px solid black;
         display: flex;
         flex-direction: row;
@@ -98,13 +112,6 @@ export default {
         border: 1px solid black;
         font-weight: bold;
         font-size: 4rem;
-    }
-
-    test-content {
-        position: relative;
-        z-index: 100;
-        color: black;
-        padding: 4px;
-        border: 1px solid black;
+        text-align: center;
     }
 </style>
