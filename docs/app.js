@@ -28181,7 +28181,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-bundler.js");
 /* harmony import */ var node_editor_PlacementNode__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! node_editor/PlacementNode */ "./src/node_editor/PlacementNode.vue");
-/* harmony import */ var node_editor_MachineNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! node_editor/MachineNode */ "./src/node_editor/MachineNode.vue");
+/* harmony import */ var node_editor_LogisticsLine__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! node_editor/LogisticsLine */ "./src/node_editor/LogisticsLine.vue");
 
 
 
@@ -28195,15 +28195,18 @@ var EmitEvents = {
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     PlacementNode: node_editor_PlacementNode__WEBPACK_IMPORTED_MODULE_1__.default,
-    MachineNode: node_editor_MachineNode__WEBPACK_IMPORTED_MODULE_2__.default
+    LogisticsLine: node_editor_LogisticsLine__WEBPACK_IMPORTED_MODULE_2__.default
   },
   setup: function setup() {
     var area = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
     var nodes = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)([]);
+    var lines = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)([]);
     return {
       area: area,
       // ルート要素
-      nodes: nodes // 配置するノードリスト
+      nodes: nodes,
+      // 配置するノードリスト
+      lines: lines // 配置する運搬ラインリスト
 
     };
   },
@@ -28247,6 +28250,181 @@ var EmitEvents = {
     return {
       selectingNodeIndex: -1
     };
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/LogisticsLine.vue?vue&type=script&lang=js":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/LogisticsLine.vue?vue&type=script&lang=js ***!
+  \********************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var const__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! const */ "./src/const.js");
+/* harmony import */ var models_Calculator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! models/Calculator */ "./src/models/Calculator.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+// パスをHTML上に自在に表示させてかつその線のクリック判定をする事ができないので、
+// ベジェ曲線の式から一定の距離で分割して当たり判定divを表示する。
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    outputSocket: {
+      // 始点側のソケット
+      type: Object,
+      default: null
+    },
+    inputSocket: {
+      // 終点側のソケット
+      type: Object,
+      default: null
+    }
+  },
+  computed: _objectSpread({
+    division: function division() {
+      return 20;
+    },
+    // 分割数
+    startLeft: function startLeft() {
+      return this.startPos.x + 'px';
+    },
+    // 始点のx座標
+    startTop: function startTop() {
+      return this.startPos.y + 'px';
+    },
+    // 始点のy座標
+    endLeft: function endLeft() {
+      return this.endPos.x + 'px';
+    },
+    // 終点のx座標
+    endTop: function endTop() {
+      return this.endPos.y + 'px';
+    }
+  }, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)('EditorStatus', {
+    isDebugMode: 'isDebugMode' // デバッグモードか
+
+  })),
+  created: function created() {
+    if (this.outputSocket) {
+      this.updateStartSocketPos();
+      this.outputSocket.connectLine(this);
+    }
+
+    if (this.inputSocket) {
+      this.updateEndSocketPos();
+      this.inputSocket.connectLine(this);
+    }
+
+    this.buildLine();
+  },
+  methods: {
+    // 始点座標を直接指定(マニピュレータ用)
+    setStartPoint: function setStartPoint(x, y) {
+      this.startPos.x = x;
+      this.startPos.y = y;
+      this.inputSocket = null;
+      this.buildLine();
+    },
+    // 終点座標を直接指定(マニピュレータ用)
+    setEndPoint: function setEndPoint(x, y) {
+      this.endPos.x = x;
+      this.endPos.y = y;
+      this.outputSocket = null;
+      this.buildLine();
+    },
+    // ソケットが移動したら再構築
+    onMoved: function onMoved() {
+      updateStartSocketPos();
+      updateEndSocketPos();
+      buildLine();
+    },
+    buildLine: function buildLine() {
+      var interval = 1 / this.division;
+
+      for (var i = 0; i < this.division; i++) {
+        var part = models_Calculator__WEBPACK_IMPORTED_MODULE_1__.default.bezierZ(this.startPos.x, this.startPos.y, this.endPos.x, this.endPos.y, interval * i);
+        this.parts[i] = part;
+      }
+
+      this.parts[this.division] = {
+        x: this.endX,
+        y: this.endY
+      };
+    },
+    updateStartSocketPos: function updateStartSocketPos() {
+      // 始点のソケットの座標を取得
+      if (this.outputSocket) {
+        this.startPos = this.outputSocket.getSocketPoint();
+      }
+    },
+    updateEndSocketPos: function updateEndSocketPos() {
+      // 終点のソケットの座標を取得
+      if (this.inputSocket) {
+        this.endPos = this.inputSocket.getSocketPoint();
+      }
+    }
+  },
+  updated: function updated() {
+    var _this = this;
+
+    this.$nextTick(function () {
+      if (!_this.outputSocket || !_this.inputSocket) return;
+      var prevStartPos = _this.startPos;
+      var prevEndPos = _this.endPos;
+
+      var currentStartPos = _this.outputSocket.getSocketPoint();
+
+      var currentEndPos = _this.inputSocket.getSocketPoint();
+
+      if (currentStartPos.x == prevStartPos.x && currentStartPos.y == prevStartPos.y && currentEndPos.x == prevEndPos.x && currentEndPos.y == prevEndPos.y) return;
+
+      _this.buildLine();
+    });
+  },
+  data: function data() {
+    return {
+      startPos: {
+        x: 10,
+        y: 10
+      },
+      // 始点(ソケットにとって出力側)
+      endPos: {
+        x: 200,
+        y: 200
+      },
+      // 終点(ソケットにとって入力側)
+      parts: [],
+      // 各パーツの座標
+      material: '' // 運搬素材
+
+    };
+  },
+  watch: {
+    outputSocket: function outputSocket(v) {
+      if (v) {
+        this.updateStartSocketPos();
+        this.buildLine();
+      }
+    },
+    inputSocket: function inputSocket(v) {
+      if (v) {
+        this.updateEndSocketPos();
+        this.buildLine();
+      }
+    }
   }
 });
 
@@ -28475,6 +28653,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     // ノードが選択された
     selectedNode: function selectedNode(event) {
+      if (this.selectingNode === event.node.value) return;
       var node = event.node;
       var machineName = models_Config__WEBPACK_IMPORTED_MODULE_0__.Config.getMachineData(node.value.data.machine).Name;
       var machineNum = node.value.data.machineNum;
@@ -28489,6 +28668,7 @@ __webpack_require__.r(__webpack_exports__);
         value: machineName,
         options: models_Config__WEBPACK_IMPORTED_MODULE_0__.Config.getMachineNameList(),
         changed: function changed(e) {
+          if (self.properties[0].value == e.target.value) return;
           self.properties[0].value = e.target.value;
           var value = e.target.value;
           var id = models_Config__WEBPACK_IMPORTED_MODULE_0__.Config.getMachineIdFromName(value);
@@ -29132,6 +29312,8 @@ var _hoisted_1 = {
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_placement_node = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("placement-node");
 
+  var _component_logistics_line = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("logistics-line");
+
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.nodes, function (node, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_placement_node, {
       key: index,
@@ -29149,9 +29331,76 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , ["id", "nodeType", "nodeData", "onSelected", "onMoved"]);
   }), 128
   /* KEYED_FRAGMENT */
+  )), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.lines, function (line) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_logistics_line, {
+      key: line
+    });
+  }), 128
+  /* KEYED_FRAGMENT */
   ))], 512
   /* NEED_PATCH */
   );
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/LogisticsLine.vue?vue&type=template&id=eb45120e":
+/*!************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/LogisticsLine.vue?vue&type=template&id=eb45120e ***!
+  \************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.runtime.esm-bundler.js");
+
+var _hoisted_1 = {
+  class: "line-root"
+};
+var _hoisted_2 = {
+  key: 0
+};
+var _hoisted_3 = {
+  key: 0
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+    class: "line-start",
+    style: {
+      left: $options.startLeft,
+      top: $options.startTop
+    }
+  }, [_ctx.isDebugMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_2, "S(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.startPos.x) + "," + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.startPos.y) + ")", 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4
+  /* STYLE */
+  ), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.parts, function (part, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
+      class: "line-parts",
+      key: index,
+      style: {
+        left: part.x + 'px',
+        top: part.y + 'px'
+      }
+    }, null, 4
+    /* STYLE */
+    );
+  }), 128
+  /* KEYED_FRAGMENT */
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+    class: "line-end",
+    style: {
+      left: $options.endLeft,
+      top: $options.endTop
+    }
+  }, [_ctx.isDebugMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("span", _hoisted_3, "E(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.endPos.x) + "," + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.endPos.y) + ")", 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4
+  /* STYLE */
+  )]);
 }
 
 /***/ }),
@@ -32008,7 +32257,34 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.area {\n        position: relative,\n}\n", "",{"version":3,"sources":["webpack://./src/node_editor/DrawBoard.vue"],"names":[],"mappings":";AA8EI;QACI;AACJ","sourcesContent":["<template>\n    <div class=\"area\" ref=\"area\">\n        <placement-node\n            v-for=\"(node, index) in nodes\" :key=\"index\"\n            :id=\"node.value.id\"\n            :nodeType=\"node.value.type\"\n            :nodeData=\"node.value.data\"\n            @selected=\"selectedNode(index, $event)\"\n            @moved=\"movedNode(index, $event)\">\n        </placement-node>\n    </div>\n</template>\n\n<script>\nimport { ref, reactive } from 'vue'\nimport PlacementNode from 'node_editor/PlacementNode'\nimport { NodeType } from 'node_editor/PlacementNode'\nimport MachineNode from 'node_editor/MachineNode'\n\nconst EmitEvents = {\n    SelectedNode: 'selectednode', // ノードが選択された\n    MovedNode: 'nodemove', // ノードが移動した\n};\n\nexport default {\n    components: {\n        PlacementNode,\n        MachineNode,\n    },\n    setup() {\n        const area = ref(null);\n        const nodes = reactive([]);\n\n        return {\n            area, // ルート要素\n            nodes, // 配置するノードリスト\n        }\n    },\n    mounted() {\n        this.$nextTick(() => {\n            this.addNode(NodeType.MachineNode, {\n                machine: 'Blender',\n                machineNum: 2,\n                recipe: '代替: 混合ターボ燃料',\n                overclock: 100\n            });\n        });\n    },\n    methods: {\n        selectedNode: function(index, event) {\n            this.$emit(EmitEvents.SelectedNode, {\n                position: event.position,\n                node: this.nodes[index],\n            });\n        },\n        movedNode: function(index, event) {\n            this.$emit(EmitEvents.MovedNode, {\n                position: event.position,\n            });\n        },\n        addNode: function(type, data) {\n            console.log(this.nodes, type, data);\n            this.nodes.push(ref({\n                id: this.nodes.length, // 配置 id\n                type: type, // 配置ノードタイプ\n                data: data, // ノード設定\n            }));\n        },\n    },\n    data: function() {\n        return {\n            selectingNodeIndex: -1,\n        }\n    }\n}\n</script>\n\n<style>\n    .area {\n        position: relative,\n    }\n</style>"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.area {\n        position: relative,\n}\n", "",{"version":3,"sources":["webpack://./src/node_editor/DrawBoard.vue"],"names":[],"mappings":";AAmFI;QACI;AACJ","sourcesContent":["<template>\n    <div class=\"area\" ref=\"area\">\n        <placement-node\n            v-for=\"(node, index) in nodes\" :key=\"index\"\n            :id=\"node.value.id\"\n            :nodeType=\"node.value.type\"\n            :nodeData=\"node.value.data\"\n            @selected=\"selectedNode(index, $event)\"\n            @moved=\"movedNode(index, $event)\">\n        </placement-node>\n        <logistics-line\n            v-for=\"line in lines\" :key=\"line\">\n        </logistics-line>\n    </div>\n</template>\n\n<script>\nimport { ref, reactive } from 'vue'\nimport PlacementNode from 'node_editor/PlacementNode'\nimport { NodeType } from 'node_editor/PlacementNode'\nimport LogisticsLine from 'node_editor/LogisticsLine'\n\nconst EmitEvents = {\n    SelectedNode: 'selectednode', // ノードが選択された\n    MovedNode: 'nodemove', // ノードが移動した\n};\n\nexport default {\n    components: {\n        PlacementNode,\n        LogisticsLine,\n    },\n    setup() {\n        const area = ref(null);\n        const nodes = reactive([]);\n        const lines = reactive([]);\n\n        return {\n            area, // ルート要素\n            nodes, // 配置するノードリスト\n            lines, // 配置する運搬ラインリスト\n        }\n    },\n    mounted() {\n        this.$nextTick(() => {\n            this.addNode(NodeType.MachineNode, {\n                machine: 'Blender',\n                machineNum: 2,\n                recipe: '代替: 混合ターボ燃料',\n                overclock: 100\n            });\n        });\n    },\n    methods: {\n        selectedNode: function(index, event) {\n            this.$emit(EmitEvents.SelectedNode, {\n                position: event.position,\n                node: this.nodes[index],\n            });\n        },\n        movedNode: function(index, event) {\n            this.$emit(EmitEvents.MovedNode, {\n                position: event.position,\n            });\n        },\n        addNode: function(type, data) {\n            console.log(this.nodes, type, data);\n            this.nodes.push(ref({\n                id: this.nodes.length, // 配置 id\n                type: type, // 配置ノードタイプ\n                data: data, // ノード設定\n            }));\n        },\n    },\n    data: function() {\n        return {\n            selectingNodeIndex: -1,\n        }\n    }\n}\n</script>\n\n<style>\n    .area {\n        position: relative,\n    }\n</style>"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/LogisticsLine.vue?vue&type=style&index=0&id=eb45120e&lang=css":
+/*!***************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/LogisticsLine.vue?vue&type=style&index=0&id=eb45120e&lang=css ***!
+  \***************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ "./node_modules/css-loader/dist/runtime/cssWithMappingToString.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\n.line-start,.line-end {\n        position: absolute;\n        border: 1px solid black;\n        border-radius: 4px;\n        width: 8px;\n        height: 8px;\n        background: white;\n        color: red;\n}\n.line-parts {\n        position: absolute;\n        border: 1px solid black;\n        border-radius: 4px;\n        width: 4px;\n        height: 4px;\n        background: black;\n}\n", "",{"version":3,"sources":["webpack://./src/node_editor/LogisticsLine.vue"],"names":[],"mappings":";AAyII;QACI,kBAAkB;QAClB,uBAAuB;QACvB,kBAAkB;QAClB,UAAU;QACV,WAAW;QACX,iBAAiB;QACjB,UAAU;AACd;AACA;QACI,kBAAkB;QAClB,uBAAuB;QACvB,kBAAkB;QAClB,UAAU;QACV,WAAW;QACX,iBAAiB;AACrB","sourcesContent":["<template>\n    <div class=\"line-root\">\n        <div class=\"line-start\" :style=\"{left: startLeft, top: startTop}\">\n            <span v-if=\"isDebugMode\">S({{startPos.x}},{{startPos.y}})</span>\n        </div>\n        <div class=\"line-parts\" v-for=\"(part, index) in parts\" :key=\"index\"\n            :style=\"{left: part.x + 'px', top: part.y + 'px'}\">\n        </div>\n        <div class=\"line-end\" :style=\"{left: endLeft, top: endTop}\">\n            <span v-if=\"isDebugMode\">E({{endPos.x}},{{endPos.y}})</span>\n        </div>\n    </div>\n</template>\n\n<script>\n// パスをHTML上に自在に表示させてかつその線のクリック判定をする事ができないので、\n// ベジェ曲線の式から一定の距離で分割して当たり判定divを表示する。\nimport { IODirection } from 'const'\nimport Calculator from 'models/Calculator'\nimport { mapGetters } from 'vuex'\n\nexport default {\n    props: {\n        outputSocket: { // 始点側のソケット\n            type: Object,\n            default: null,\n        },\n        inputSocket: { // 終点側のソケット\n            type: Object,\n            default: null,\n        },\n    },\n    computed: {\n        division() { return 20 }, // 分割数\n        startLeft() { return this.startPos.x + 'px' }, // 始点のx座標\n        startTop() { return this.startPos.y + 'px' }, // 始点のy座標\n        endLeft() { return this.endPos.x + 'px' }, // 終点のx座標\n        endTop() { return this.endPos.y + 'px' }, // 終点のy座標\n        ...mapGetters('EditorStatus', {\n            isDebugMode: 'isDebugMode', // デバッグモードか\n        }),\n    },\n    created: function() {\n        if (this.outputSocket) {\n            this.updateStartSocketPos();\n            this.outputSocket.connectLine(this);\n        }\n        if (this.inputSocket) {\n            this.updateEndSocketPos();\n            this.inputSocket.connectLine(this);\n        }\n        this.buildLine();\n    },\n    methods: {\n        // 始点座標を直接指定(マニピュレータ用)\n        setStartPoint: function(x, y) {\n            this.startPos.x = x;\n            this.startPos.y = y;\n            this.inputSocket = null;\n            this.buildLine();\n        },\n        // 終点座標を直接指定(マニピュレータ用)\n        setEndPoint: function(x, y) {\n            this.endPos.x = x;\n            this.endPos.y = y;\n            this.outputSocket = null;\n            this.buildLine();\n        },\n        // ソケットが移動したら再構築\n        onMoved: function() {\n            updateStartSocketPos();\n            updateEndSocketPos();\n            buildLine();\n        },\n        buildLine: function() {\n            const interval = 1 / this.division;\n            for (let i = 0; i < this.division; i++) {\n                const part = Calculator.bezierZ(\n                    this.startPos.x, this.startPos.y,\n                    this.endPos.x, this.endPos.y,\n                    interval * i);\n                this.parts[i] = part;\n            }\n            this.parts[this.division] = { x: this.endX, y: this.endY };\n        },\n        updateStartSocketPos() { // 始点のソケットの座標を取得\n            if (this.outputSocket) {\n                this.startPos = this.outputSocket.getSocketPoint();\n            }\n        },\n        updateEndSocketPos() { // 終点のソケットの座標を取得\n            if (this.inputSocket) {\n                this.endPos = this.inputSocket.getSocketPoint();\n            }\n        },\n    },\n    updated: function() {\n        this.$nextTick(() => {\n            if (!this.outputSocket || !this.inputSocket) return;\n\n            const prevStartPos = this.startPos;\n            const prevEndPos = this.endPos;\n            const currentStartPos = this.outputSocket.getSocketPoint();\n            const currentEndPos = this.inputSocket.getSocketPoint();\n            if (currentStartPos.x == prevStartPos.x && \n                currentStartPos.y == prevStartPos.y && \n                currentEndPos.x == prevEndPos.x && \n                currentEndPos.y == prevEndPos.y) return;\n            this.buildLine();\n        });\n    },\n    data: function() {\n        return {\n            startPos: { x: 10, y: 10 }, // 始点(ソケットにとって出力側)\n            endPos: { x: 200, y: 200 }, // 終点(ソケットにとって入力側)\n            parts: [], // 各パーツの座標\n            material: '', // 運搬素材\n        };\n    },\n    watch: {\n        outputSocket(v) {\n            if (v) {\n                this.updateStartSocketPos();\n                this.buildLine();\n            }\n        },\n        inputSocket(v) {\n            if (v) {\n                this.updateEndSocketPos();\n                this.buildLine();\n            }\n        },\n    }\n}\n</script>\n\n<style>\n    .line-start,.line-end {\n        position: absolute;\n        border: 1px solid black;\n        border-radius: 4px;\n        width: 8px;\n        height: 8px;\n        background: white;\n        color: red;\n    }\n    .line-parts {\n        position: absolute;\n        border: 1px solid black;\n        border-radius: 4px;\n        width: 4px;\n        height: 4px;\n        background: black;\n    }\n</style>"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -32089,7 +32365,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.detail-frame {\n        display: flex;\n        flex-direction: column;\n        height: 100%;\n        padding: 4px;\n}\n.node-name {\n        font-weight: bold;\n}\n.parameter-list {\n        flex: 1;\n}\n.value-item {\n        display: flex;\n        flex-direction: row;\n}\n.flex-1 {\n        flex: 1;\n}\n.w100 {\n        width: 100%;\n}\n.slider-number {\n        width: 64px;\n        text-align: center;\n}\n    /* スピンボタンを常に表示 */\ninput[type=number]::-webkit-inner-spin-button {\n        opacity: 1\n}\n", "",{"version":3,"sources":["webpack://./src/node_editor/NodeDetail.vue"],"names":[],"mappings":";AA8GI;QACI,aAAa;QACb,sBAAsB;QACtB,YAAY;QACZ,YAAY;AAChB;AACA;QACI,iBAAiB;AACrB;AACA;QACI,OAAO;AACX;AACA;QACI,aAAa;QACb,mBAAmB;AACvB;AACA;QACI,OAAO;AACX;AACA;QACI,WAAW;AACf;AACA;QACI,WAAW;QACX,kBAAkB;AACtB;IACA,gBAAgB;AAChB;QACI;AACJ","sourcesContent":["<template>\n    <div class=\"detail-frame\">\n        <div class=\"node-name\">{{ name }}</div>\n        <hr />\n        <div class=\"parameter-list\">\n            <div class=\"parameter\"  v-for=\"(property, index) in properties\" :key=\"index\">\n                <div class=\"label\">{{ property.label }}</div>\n                <div class=\"value-area\">\n                    <div v-if=\"property.type == 'select'\" class=\"value-item\">\n                        <select :value=\"property.value\" class=\"w100\" @change=\"property.changed\">\n                            <option disabled value=\"\">未選択</option>\n                            <option v-for=\"option in property.options\" :key=\"option\" :value=\"option\">{{ option }}</option>\n                        </select>\n                    </div>\n                    <div v-if=\"property.type == 'spinbox'\" class=\"value-item\">\n                        <input type=\"number\" :value=\"property.value\" class=\"w100\" @input=\"property.changed\"\n                            :min=\"property.min\" :max=\"property.max\" :step=\"property.step\" />\n                    </div>\n                    <div v-if=\"property.type == 'slider'\" class=\"value-item\">\n                        <input type=\"range\" :value=\"property.value\" class=\"flex-1\" @input=\"property.changed\"\n                            name=\"volume\" :min=\"property.min\" :max=\"property.max\" :step=\"property.step\" />\n                        <input type=\"number\" class=\"slider-number\" :value=\"property.value\" @input=\"property.changed\"\n                             :min=\"property.min\" :max=\"property.max\" />\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</template>\n\n<script>\nimport { Config } from 'models/Config'\n\nexport default {\n    methods: {\n        // ノードが選択された\n        selectedNode: function(event) {\n            const node = event.node;\n            const machineName = Config.getMachineData(node.value.data.machine).Name;\n            const machineNum = node.value.data.machineNum;\n            const recipe = node.value.data.recipe;\n            const overclock = node.value.data.overclock;\n            const self = this;\n            this.selectingNode = node;\n            this.name = '設備ノード';\n            this.properties = [\n                {\n                    label: '設備名',\n                    type: 'select',\n                    value: machineName,\n                    options: Config.getMachineNameList(),\n                    changed: function(e) {\n                        self.properties[0].value = e.target.value;\n                        const value = e.target.value;\n                        const id = Config.getMachineIdFromName(value);\n                        node.value.data.machine = id;\n                        self.properties[2].options = Config.getRecipeNameForMachine(id);\n                        self.properties[2].value = self.properties[2].options[0];\n                        node.value.data.recipe = self.properties[2].value;\n                    }\n                },\n                {\n                    label: '設備数',\n                    type: 'spinbox',\n                    value: machineNum,\n                    min: 1,\n                    changed: function(e) {\n                        const number = Number.parseInt(e.target.value);\n                        self.properties[1].value = number;\n                        node.value.data.machineNum = number;\n                    }\n                },\n                {\n                    label: 'レシピ名',\n                    type: 'select',\n                    value: recipe,\n                    options: Config.getRecipeNameForMachine('Blender'),\n                    changed: function(e) {\n                        self.properties[2].value = e.target.value;\n                        node.value.data.recipe = e.target.value;\n                    }\n                },\n                {\n                    label: 'オーバークロック数',\n                    type: 'slider',\n                    value: overclock,\n                    min: 0,\n                    max: 250,\n                    step: 50,\n                    changed: function(e) {\n                        const value = Math.round( e.target.value * 10000 ) / 10000; // 小数点以下5桁目を四捨五入\n                        self.properties[3].value = value;\n                        node.value.data.overclock = value;\n                    }\n                },\n            ]\n        }\n    },\n    data: function() {\n        const self = this;\n        return {\n            selectingNode: null,\n            name: '',\n            properties: []\n        }\n    }\n}\n</script>\n\n<style>\n    .detail-frame {\n        display: flex;\n        flex-direction: column;\n        height: 100%;\n        padding: 4px;\n    }\n    .node-name {\n        font-weight: bold;\n    }\n    .parameter-list {\n        flex: 1;\n    }\n    .value-item {\n        display: flex;\n        flex-direction: row;\n    }\n    .flex-1 {\n        flex: 1;\n    }\n    .w100 {\n        width: 100%;\n    }\n    .slider-number {\n        width: 64px;\n        text-align: center;\n    }\n    /* スピンボタンを常に表示 */\n    input[type=number]::-webkit-inner-spin-button {\n        opacity: 1\n    }\n</style>"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.detail-frame {\n        display: flex;\n        flex-direction: column;\n        height: 100%;\n        padding: 4px;\n}\n.node-name {\n        font-weight: bold;\n}\n.parameter-list {\n        flex: 1;\n}\n.value-item {\n        display: flex;\n        flex-direction: row;\n}\n.flex-1 {\n        flex: 1;\n}\n.w100 {\n        width: 100%;\n}\n.slider-number {\n        width: 64px;\n        text-align: center;\n}\n    /* スピンボタンを常に表示 */\ninput[type=number]::-webkit-inner-spin-button {\n        opacity: 1\n}\n", "",{"version":3,"sources":["webpack://./src/node_editor/NodeDetail.vue"],"names":[],"mappings":";AAgHI;QACI,aAAa;QACb,sBAAsB;QACtB,YAAY;QACZ,YAAY;AAChB;AACA;QACI,iBAAiB;AACrB;AACA;QACI,OAAO;AACX;AACA;QACI,aAAa;QACb,mBAAmB;AACvB;AACA;QACI,OAAO;AACX;AACA;QACI,WAAW;AACf;AACA;QACI,WAAW;QACX,kBAAkB;AACtB;IACA,gBAAgB;AAChB;QACI;AACJ","sourcesContent":["<template>\n    <div class=\"detail-frame\">\n        <div class=\"node-name\">{{ name }}</div>\n        <hr />\n        <div class=\"parameter-list\">\n            <div class=\"parameter\"  v-for=\"(property, index) in properties\" :key=\"index\">\n                <div class=\"label\">{{ property.label }}</div>\n                <div class=\"value-area\">\n                    <div v-if=\"property.type == 'select'\" class=\"value-item\">\n                        <select :value=\"property.value\" class=\"w100\" @change=\"property.changed\">\n                            <option disabled value=\"\">未選択</option>\n                            <option v-for=\"option in property.options\" :key=\"option\" :value=\"option\">{{ option }}</option>\n                        </select>\n                    </div>\n                    <div v-if=\"property.type == 'spinbox'\" class=\"value-item\">\n                        <input type=\"number\" :value=\"property.value\" class=\"w100\" @input=\"property.changed\"\n                            :min=\"property.min\" :max=\"property.max\" :step=\"property.step\" />\n                    </div>\n                    <div v-if=\"property.type == 'slider'\" class=\"value-item\">\n                        <input type=\"range\" :value=\"property.value\" class=\"flex-1\" @input=\"property.changed\"\n                            name=\"volume\" :min=\"property.min\" :max=\"property.max\" :step=\"property.step\" />\n                        <input type=\"number\" class=\"slider-number\" :value=\"property.value\" @input=\"property.changed\"\n                             :min=\"property.min\" :max=\"property.max\" />\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n</template>\n\n<script>\nimport { Config } from 'models/Config'\n\nexport default {\n    methods: {\n        // ノードが選択された\n        selectedNode: function(event) {\n            if (this.selectingNode === event.node.value) return;\n            const node = event.node;\n            const machineName = Config.getMachineData(node.value.data.machine).Name;\n            const machineNum = node.value.data.machineNum;\n            const recipe = node.value.data.recipe;\n            const overclock = node.value.data.overclock;\n            const self = this;\n            this.selectingNode = node;\n            this.name = '設備ノード';\n            this.properties = [\n                {\n                    label: '設備名',\n                    type: 'select',\n                    value: machineName,\n                    options: Config.getMachineNameList(),\n                    changed: function(e) {\n                        if (self.properties[0].value == e.target.value) return;\n                        self.properties[0].value = e.target.value;\n                        const value = e.target.value;\n                        const id = Config.getMachineIdFromName(value);\n                        node.value.data.machine = id;\n                        self.properties[2].options = Config.getRecipeNameForMachine(id);\n                        self.properties[2].value = self.properties[2].options[0];\n                        node.value.data.recipe = self.properties[2].value;\n                    }\n                },\n                {\n                    label: '設備数',\n                    type: 'spinbox',\n                    value: machineNum,\n                    min: 1,\n                    changed: function(e) {\n                        const number = Number.parseInt(e.target.value);\n                        self.properties[1].value = number;\n                        node.value.data.machineNum = number;\n                    }\n                },\n                {\n                    label: 'レシピ名',\n                    type: 'select',\n                    value: recipe,\n                    options: Config.getRecipeNameForMachine('Blender'),\n                    changed: function(e) {\n                        self.properties[2].value = e.target.value;\n                        node.value.data.recipe = e.target.value;\n                    }\n                },\n                {\n                    label: 'オーバークロック数',\n                    type: 'slider',\n                    value: overclock,\n                    min: 0,\n                    max: 250,\n                    step: 50,\n                    changed: function(e) {\n                        const value = Math.round( e.target.value * 10000 ) / 10000; // 小数点以下5桁目を四捨五入\n                        self.properties[3].value = value;\n                        node.value.data.overclock = value;\n                    }\n                },\n            ]\n        }\n    },\n    data: function() {\n        const self = this;\n        return {\n            selectingNode: null,\n            name: '',\n            properties: []\n        }\n    }\n}\n</script>\n\n<style>\n    .detail-frame {\n        display: flex;\n        flex-direction: column;\n        height: 100%;\n        padding: 4px;\n    }\n    .node-name {\n        font-weight: bold;\n    }\n    .parameter-list {\n        flex: 1;\n    }\n    .value-item {\n        display: flex;\n        flex-direction: row;\n    }\n    .flex-1 {\n        flex: 1;\n    }\n    .w100 {\n        width: 100%;\n    }\n    .slider-number {\n        width: 64px;\n        text-align: center;\n    }\n    /* スピンボタンを常に表示 */\n    input[type=number]::-webkit-inner-spin-button {\n        opacity: 1\n    }\n</style>"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -32233,6 +32509,35 @@ if (false) {}
 _DrawBoard_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "src/node_editor/DrawBoard.vue"
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_DrawBoard_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
+
+/***/ }),
+
+/***/ "./src/node_editor/LogisticsLine.vue":
+/*!*******************************************!*\
+  !*** ./src/node_editor/LogisticsLine.vue ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _LogisticsLine_vue_vue_type_template_id_eb45120e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LogisticsLine.vue?vue&type=template&id=eb45120e */ "./src/node_editor/LogisticsLine.vue?vue&type=template&id=eb45120e");
+/* harmony import */ var _LogisticsLine_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LogisticsLine.vue?vue&type=script&lang=js */ "./src/node_editor/LogisticsLine.vue?vue&type=script&lang=js");
+/* harmony import */ var _LogisticsLine_vue_vue_type_style_index_0_id_eb45120e_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./LogisticsLine.vue?vue&type=style&index=0&id=eb45120e&lang=css */ "./src/node_editor/LogisticsLine.vue?vue&type=style&index=0&id=eb45120e&lang=css");
+
+
+
+
+;
+_LogisticsLine_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.render = _LogisticsLine_vue_vue_type_template_id_eb45120e__WEBPACK_IMPORTED_MODULE_0__.render
+/* hot reload */
+if (false) {}
+
+_LogisticsLine_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default.__file = "src/node_editor/LogisticsLine.vue"
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_LogisticsLine_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__.default);
 
 /***/ }),
 
@@ -32446,6 +32751,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/node_editor/LogisticsLine.vue?vue&type=script&lang=js":
+/*!*******************************************************************!*\
+  !*** ./src/node_editor/LogisticsLine.vue?vue&type=script&lang=js ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_LogisticsLine_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__.default)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_LogisticsLine_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib/index.js!../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./LogisticsLine.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/LogisticsLine.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
 /***/ "./src/node_editor/MachineNode.vue?vue&type=script&lang=js":
 /*!*****************************************************************!*\
   !*** ./src/node_editor/MachineNode.vue?vue&type=script&lang=js ***!
@@ -32575,6 +32896,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/node_editor/LogisticsLine.vue?vue&type=template&id=eb45120e":
+/*!*************************************************************************!*\
+  !*** ./src/node_editor/LogisticsLine.vue?vue&type=template&id=eb45120e ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_LogisticsLine_vue_vue_type_template_id_eb45120e__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_LogisticsLine_vue_vue_type_template_id_eb45120e__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib/index.js!../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./LogisticsLine.vue?vue&type=template&id=eb45120e */ "./node_modules/babel-loader/lib/index.js!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/LogisticsLine.vue?vue&type=template&id=eb45120e");
+
+
+/***/ }),
+
 /***/ "./src/node_editor/MachineNode.vue?vue&type=template&id=5be18a8a&scoped=true":
 /*!***********************************************************************************!*\
   !*** ./src/node_editor/MachineNode.vue?vue&type=template&id=5be18a8a&scoped=true ***!
@@ -32700,6 +33037,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_DrawBoard_vue_vue_type_style_index_0_id_12048458_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_DrawBoard_vue_vue_type_style_index_0_id_12048458_lang_css__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
 /* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_DrawBoard_vue_vue_type_style_index_0_id_12048458_lang_css__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_DrawBoard_vue_vue_type_style_index_0_id_12048458_lang_css__WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
+/* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
+
+
+/***/ }),
+
+/***/ "./src/node_editor/LogisticsLine.vue?vue&type=style&index=0&id=eb45120e&lang=css":
+/*!***************************************************************************************!*\
+  !*** ./src/node_editor/LogisticsLine.vue?vue&type=style&index=0&id=eb45120e&lang=css ***!
+  \***************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_LogisticsLine_vue_vue_type_style_index_0_id_eb45120e_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-style-loader/index.js!../../node_modules/css-loader/dist/cjs.js!../../node_modules/vue-loader/dist/stylePostLoader.js!../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./LogisticsLine.vue?vue&type=style&index=0&id=eb45120e&lang=css */ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/LogisticsLine.vue?vue&type=style&index=0&id=eb45120e&lang=css");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_LogisticsLine_vue_vue_type_style_index_0_id_eb45120e_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_LogisticsLine_vue_vue_type_style_index_0_id_eb45120e_lang_css__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ var __WEBPACK_REEXPORT_OBJECT__ = {};
+/* harmony reexport (unknown) */ for(const __WEBPACK_IMPORT_KEY__ in _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_LogisticsLine_vue_vue_type_style_index_0_id_eb45120e_lang_css__WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== "default") __WEBPACK_REEXPORT_OBJECT__[__WEBPACK_IMPORT_KEY__] = () => _node_modules_vue_style_loader_index_js_node_modules_css_loader_dist_cjs_js_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_vue_loader_dist_index_js_ruleSet_1_rules_5_use_0_LogisticsLine_vue_vue_type_style_index_0_id_eb45120e_lang_css__WEBPACK_IMPORTED_MODULE_0__[__WEBPACK_IMPORT_KEY__]
 /* harmony reexport (unknown) */ __webpack_require__.d(__webpack_exports__, __WEBPACK_REEXPORT_OBJECT__);
 
 
@@ -32844,6 +33198,27 @@ if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(/*! !../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
 var update = add("16fa77e7", content, false, {});
+// Hot Module Replacement
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/LogisticsLine.vue?vue&type=style&index=0&id=eb45120e&lang=css":
+/*!********************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-style-loader/index.js!./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/LogisticsLine.vue?vue&type=style&index=0&id=eb45120e&lang=css ***!
+  \********************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js!../../node_modules/vue-loader/dist/stylePostLoader.js!../../node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./LogisticsLine.vue?vue&type=style&index=0&id=eb45120e&lang=css */ "./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/vue-loader/dist/index.js??ruleSet[1].rules[5].use[0]!./src/node_editor/LogisticsLine.vue?vue&type=style&index=0&id=eb45120e&lang=css");
+if(content.__esModule) content = content.default;
+if(typeof content === 'string') content = [[module.id, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__(/*! !../../node_modules/vue-style-loader/lib/addStylesClient.js */ "./node_modules/vue-style-loader/lib/addStylesClient.js").default
+var update = add("0bf2b27e", content, false, {});
 // Hot Module Replacement
 if(false) {}
 

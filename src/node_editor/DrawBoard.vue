@@ -8,6 +8,9 @@
             @selected="selectedNode(index, $event)"
             @moved="movedNode(index, $event)">
         </placement-node>
+        <logistics-line
+            v-for="line in lines" :key="line">
+        </logistics-line>
     </div>
 </template>
 
@@ -15,7 +18,7 @@
 import { ref, reactive } from 'vue'
 import PlacementNode from 'node_editor/PlacementNode'
 import { NodeType } from 'node_editor/PlacementNode'
-import MachineNode from 'node_editor/MachineNode'
+import LogisticsLine from 'node_editor/LogisticsLine'
 
 const EmitEvents = {
     SelectedNode: 'selectednode', // ノードが選択された
@@ -25,15 +28,17 @@ const EmitEvents = {
 export default {
     components: {
         PlacementNode,
-        MachineNode,
+        LogisticsLine,
     },
     setup() {
         const area = ref(null);
         const nodes = reactive([]);
+        const lines = reactive([]);
 
         return {
             area, // ルート要素
             nodes, // 配置するノードリスト
+            lines, // 配置する運搬ラインリスト
         }
     },
     mounted() {

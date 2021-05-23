@@ -35,6 +35,7 @@ export default {
     methods: {
         // ノードが選択された
         selectedNode: function(event) {
+            if (this.selectingNode === event.node.value) return;
             const node = event.node;
             const machineName = Config.getMachineData(node.value.data.machine).Name;
             const machineNum = node.value.data.machineNum;
@@ -50,6 +51,7 @@ export default {
                     value: machineName,
                     options: Config.getMachineNameList(),
                     changed: function(e) {
+                        if (self.properties[0].value == e.target.value) return;
                         self.properties[0].value = e.target.value;
                         const value = e.target.value;
                         const id = Config.getMachineIdFromName(value);
