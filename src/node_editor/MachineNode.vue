@@ -80,7 +80,7 @@
                 <div class="name">
                     製造時間：
                     <span :class="{abnormal: abnormalValue}">
-                        {{ productTime }}s
+                        {{ (productTime) ? productTime : '-' }}s
                     </span>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                 <div class="name">
                     オーバークロック：
                     <span :class="{abnormal: abnormalValue}">
-                        {{ overclock }} %
+                        {{ fixedOverclock }} %
                     </span>
                 </div>
             </div>
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { MouseButton, IODirection, MaterialState } from 'const'
+import { IODirection, MaterialState } from 'const'
 import NodeSocket from 'node_editor/NodeSocket'
 import { Config } from 'models/Config'
 import { ref } from 'vue'
@@ -178,7 +178,9 @@ export default {
             return result;
         },
         productTime() {
-            return this.recipeData.productTime * this.overclock * 0.01;
+            if (this.overclock == 0) return 0;
+            //return this.recipeData.productTime * (100 / this.overclock);
+            return (this.recipeData.productTime * (100 / this.overclock)).toFixed(4);
         },
         abnormalValue() {
             return this.overclock != 100;
@@ -190,6 +192,9 @@ export default {
                 productTime: this.productTime,
             };
         },
+        fixedOverclock() {
+            return (this.overclock).toFixed(4);
+        }
     },
     methods: {
         // 格納/展開ボタンクリック時
@@ -202,8 +207,6 @@ export default {
             collapsed: false, // 格納状態か
         }
     },
-    watch: {
-    }
 }
 </script>
 
@@ -261,6 +264,7 @@ export default {
     }
     .machine-input,.machine-output {
         padding: 4px;
+        min-width: 120px;
     }
     .machine-socket {
         border: 1px solid black;

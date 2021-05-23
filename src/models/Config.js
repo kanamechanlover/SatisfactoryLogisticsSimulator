@@ -17,9 +17,7 @@ export const Config = {
     // 設備 id リスト取得
     getMachineIdList: function() {
         if (!this.isLoadedWithWarning()) return;
-        return Object.keys(json.Machines).map((key) => {
-            return this.json.Machines[key].Id;
-        });
+        return Object.keys(this.json.Machines);
     },
     // 設備名リスト取得
     getMachineNameList: function() {
@@ -32,7 +30,7 @@ export const Config = {
     getMachineIdFromName: function(name) {
         if (!this.isLoadedWithWarning()) return;
         return Object.keys(this.json.Machines).find((key) => {
-            this.json.Machines[key].name == name
+            return this.json.Machines[key].Name == name
         });
     },
     // 設備情報取得
@@ -42,6 +40,7 @@ export const Config = {
     },
     // 設備で使えるレシピ名リスト取得
     getRecipeNameForMachine: function(machineId) {
+        if (!this.isLoadedWithWarning()) return;
         return this.json.Recipes.filter((data) => {
             return (data.Machine.indexOf(machineId) != -1);
         }).map(v => v.Name);

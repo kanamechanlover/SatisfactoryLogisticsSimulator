@@ -55,9 +55,9 @@ export default {
         },
         // 効率
         rate() {
-            console.log(this.num, this.machineInfo.productTime);
-            return Math.floor(
-                Calculator.productRate(this.num, this.machineInfo.productTime) * 100) * 0.01 * this.machineInfo.machineNum;
+            const value = Calculator.productRate(this.num, this.machineInfo.productTime);
+            if (value == Infinity) return 0; 
+            return Math.floor(value * 100) * 0.01 * this.machineInfo.machineNum;
         },
         // オーバークロック時かどうか
         abnormalValue() {

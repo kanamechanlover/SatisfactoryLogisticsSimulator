@@ -24,6 +24,9 @@ const getters = {
     },
     originPoint(state) { // ページ上のエディタの原点の位置
         return state.originPoint;
+    },
+    getPlacedNodes(state) {
+        return state.placedNodes;
     }
 }
 const mutations = {
@@ -36,7 +39,7 @@ const mutations = {
     setOriginPoint(state, payload) {
         state.originPoint.x = payload.x;
         state.originPoint.y = payload.y;
-    }
+    },
 }
 
 const actions = {

@@ -659,7 +659,7 @@
             "Name": "銅のインゴット",
             "State": "Solid"
         },
-        "Steel Ingot": {
+        "SteelIngot": {
             "Name": "鋼鉄のインゴット",
             "State": "Solid"
         },
@@ -667,7 +667,7 @@
             "Name": "カテリウムのインゴット",
             "State": "Solid"
         },
-        "Aluminum Ingot": {
+        "AluminumIngot": {
             "Name": "アルミのインゴット",
             "State": "Solid"
         },
@@ -771,6 +771,10 @@
             "Name": "圧縮石炭",
             "State": "Solid"
         },
+        "CopperPowder": {
+            "Name": "銅粉",
+            "State": "Solid"
+        },
         "Rotor": {
             "Name": "ローター",
             "State": "Solid"
@@ -805,6 +809,18 @@
         },
         "PressureConversionCube": {
             "Name": "圧力変換キューブ",
+            "State": "Solid"
+        },
+        "EncasedUraniumCell": {
+            "Name": "被覆型ウラン･セル",
+            "State": "Solid"
+        },
+        "UraniumFuelRod": {
+            "Name": "ウラン燃料棒",
+            "State": "Solid"
+        },
+        "UraniumWaste": {
+            "Name": "ウラン廃棄物",
             "State": "Solid"
         },
         "PowerShard": {
@@ -863,7 +879,7 @@
             "Name": "ターボ燃料",
             "State": "Fluid"
         },
-        "FluidBiofuel": {
+        "LiquidBiofuel": {
             "Name": "液体バイオ燃料",
             "State": "Fluid"
         },
@@ -875,7 +891,7 @@
             "Name": "容器入りターボ燃料",
             "State": "Solid"
         },
-        "PackagedFluidBiofuel": {
+        "PackagedLiquidBiofuel": {
             "Name": "容器入り液体バイオ燃料",
             "State": "Solid"
         },
@@ -969,6 +985,14 @@
         },
         "NuclearPasta": {
             "Name": "原子核パスタ(Experimental)",
+            "State": "Solid"
+        },
+        "Beacon": {
+            "Name": "ビーコン",
+            "State": "Solid"
+        },
+        "PortableMiner": {
+            "Name": "携帯式採鉱機",
             "State": "Solid"
         },
         "CrystalOscillator": {
@@ -1179,7 +1203,7 @@
             "Name": "鋼鉄のインゴット",
             "Input": {
                 "IronOre": 3,
-                "CoalA1": 3
+                "Coal": 3
             },
             "Output": {
                 "SteelIngot": 3
@@ -1193,7 +1217,7 @@
             "Name": "代替: 高密度鋼のインゴット",
             "Input": {
                 "IronIngot": 2,
-                "CoalA1": 2
+                "Coal": 2
             },
             "Output": {
                 "SteelIngot": 3
@@ -1207,7 +1231,7 @@
             "Name": "代替: 圧縮鋼のインゴット",
             "Input": {
                 "IronOre": 6,
-                "CompactedCoalA2": 3
+                "CompactedCoal": 3
             },
             "Output": {
                 "SteelIngot": 10
@@ -1397,7 +1421,7 @@
         {
             "Name": "代替: 圧縮石炭",
             "Input": {
-                "CoalA1": 5,
+                "Coal": 5,
                 "Sulfur": 5
             },
             "Output": {
@@ -1425,7 +1449,7 @@
         {
             "Name": "残留プラスチック",
             "Input": {
-                "PolymerResinA1": 6,
+                "PolymerResin": 6,
                 "Water": 2
             },
             "Output": {
@@ -1467,7 +1491,7 @@
         {
             "Name": "残留ゴム",
             "Input": {
-                "PolymerResinA1": 4,
+                "PolymerResin": 4,
                 "Water": 4
             },
             "Output": {
@@ -1578,7 +1602,7 @@
             "Name": "ターボ燃料",
             "Input": {
                 "Fuel": 6,
-                "CompactedCoalA2": 4
+                "CompactedCoal": 4
             },
             "Output": {
                 "Turbofuel": 5
@@ -1606,7 +1630,7 @@
             "Name": "代替: ターボ重油",
             "Input": {
                 "HeavyOilResidue": 5,
-                "CompactedCoalA2": 4
+                "CompactedCoal": 4
             },
             "Output": {
                 "Turbofuel": 4
@@ -1848,7 +1872,7 @@
             "Name": "Alternate: Instant Scrap",
             "Input": {
                 "Bauxite": 15,
-                "CoalA1": 10,
+                "Coal": 10,
                 "SulfuricAcid": 5,
                 "Water": 6
             },
@@ -2137,7 +2161,7 @@
         {
             "Name": "代替: ポリエステル生地",
             "Input": {
-                "PolymerResinA1": 16,
+                "PolymerResin": 16,
                 "Water": 10
             },
             "Output": {
@@ -3481,7 +3505,7 @@
         {
             "Name": "黒色火薬",
             "Input": {
-                "CoalA1": 1,
+                "Coal": 1,
                 "Sulfur": 2
             },
             "Output": {
@@ -3496,7 +3520,7 @@
             "Name": "代替: 上質黒色火薬",
             "Input": {
                 "Sulfur": 2,
-                "CompactedCoalA2": 1
+                "CompactedCoal": 1
             },
             "Output": {
                 "BlackPowder": 4
@@ -3551,7 +3575,7 @@
         {
             "Name": "ガスフィルター",
             "Input": {
-                "CoalA1": 5,
+                "Coal": 5,
                 "Rubber": 2,
                 "Fabric": 2
             },
@@ -3939,7 +3963,7 @@
             "Output": {
                 "IronOre": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.5,
             "Machine": [
                 "MinerMk2"
             ]
@@ -3950,7 +3974,7 @@
             "Output": {
                 "CopperOre": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.5,
             "Machine": [
                 "MinerMk2"
             ]
@@ -3961,7 +3985,7 @@
             "Output": {
                 "Limestone": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.5,
             "Machine": [
                 "MinerMk2"
             ]
@@ -3972,7 +3996,7 @@
             "Output": {
                 "Coal": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.5,
             "Machine": [
                 "MinerMk2"
             ]
@@ -3983,7 +4007,7 @@
             "Output": {
                 "CateriumOre": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.5,
             "Machine": [
                 "MinerMk2"
             ]
@@ -3994,7 +4018,7 @@
             "Output": {
                 "RawQuartz": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.5,
             "Machine": [
                 "MinerMk2"
             ]
@@ -4005,7 +4029,7 @@
             "Output": {
                 "Sulfur": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.5,
             "Machine": [
                 "MinerMk2"
             ]
@@ -4016,7 +4040,7 @@
             "Output": {
                 "Bauxite": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.5,
             "Machine": [
                 "MinerMk2"
             ]
@@ -4027,7 +4051,7 @@
             "Output": {
                 "Uranium": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.5,
             "Machine": [
                 "MinerMk2"
             ]
@@ -4038,7 +4062,7 @@
             "Output": {
                 "SAMOre": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.5,
             "Machine": [
                 "MinerMk2"
             ]
@@ -4049,7 +4073,7 @@
             "Output": {
                 "IronOre": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.25,
             "Machine": [
                 "MinerMk3"
             ]
@@ -4060,7 +4084,7 @@
             "Output": {
                 "CopperOre": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.25,
             "Machine": [
                 "MinerMk3"
             ]
@@ -4071,7 +4095,7 @@
             "Output": {
                 "Limestone": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.25,
             "Machine": [
                 "MinerMk3"
             ]
@@ -4082,7 +4106,7 @@
             "Output": {
                 "Coal": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.25,
             "Machine": [
                 "MinerMk3"
             ]
@@ -4093,7 +4117,7 @@
             "Output": {
                 "CateriumOre": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.25,
             "Machine": [
                 "MinerMk3"
             ]
@@ -4104,7 +4128,7 @@
             "Output": {
                 "RawQuartz": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.25,
             "Machine": [
                 "MinerMk3"
             ]
@@ -4115,7 +4139,7 @@
             "Output": {
                 "Sulfur": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.25,
             "Machine": [
                 "MinerMk3"
             ]
@@ -4126,7 +4150,7 @@
             "Output": {
                 "Bauxite": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.25,
             "Machine": [
                 "MinerMk3"
             ]
@@ -4137,7 +4161,7 @@
             "Output": {
                 "Uranium": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.25,
             "Machine": [
                 "MinerMk3"
             ]
@@ -4148,7 +4172,7 @@
             "Output": {
                 "SAMOre": 1
             },
-            "ProductTime": 1,
+            "ProductTime": 0.25,
             "Machine": [
                 "MinerMk3"
             ]

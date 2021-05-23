@@ -4,11 +4,14 @@
                 :style="{ 'background-position-x': left, 'background-position-y': top}">
             <div class="origin" :style="{ left: left, top: top }">
                 <div style="width: 50px; color: red;">原点</div>
-                <draw-board></draw-board>
+                <draw-board
+                    @selectednode="onDrawBoadAction('selectednode', $event)"
+                    @movednode="onDrawBoadAction('movednode', $event)">
+                </draw-board>
             </div>
         </div>
         <div class="detail">
-            <node-detail></node-detail>
+            <node-detail ref="detail"></node-detail>
         </div>
     </div>
 </template>
@@ -31,8 +34,10 @@ export default {
     },
     setup: function() {
         const frame = ref(null);
+        const detail = ref(null);
         return {
             frame,
+            detail,
             position: Point(),
         }
     },
@@ -69,6 +74,13 @@ export default {
         ...mapMutations('EditorStatus', {
             changeControlState: 'changeState', // 操作ステータス変更
         }),
+        // 描画エリア上のアクション
+        onDrawBoadAction: function(name, event) {
+            console.log('onDrawBoadAction', name, event);
+            if (name == 'selectednode') {
+                this.detail.selectedNode(event);
+            }
+        },
         // キー操作定義
         onKeyAction: function(e) {
             // Spaceキー入力中は「スクロールモード」にする

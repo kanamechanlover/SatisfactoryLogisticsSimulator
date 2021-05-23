@@ -1,6 +1,6 @@
 <template>
     <div class="frame" :style="{ left: left, top: top }" @mousedown="onMouseAction">
-        <machine-node v-if="isMachineNode"
+        <machine-node v-if="isMachineNode" ref="node"
             :machine="nodeData.machine"
             :machineNum="nodeData.machineNum"
             :recipe="nodeData.recipe"
@@ -20,6 +20,11 @@ import MachineNode from 'node_editor/MachineNode'
 export const NodeType = {
     MachineNode: 'MachineNode', // 設備ノード
     ResourceNode: 'ResourceNode', // 資源ノード
+};
+
+const EmitEvents = {
+    Moved: 'moved', // ノードが移動した
+    Selected: 'selected', // 選択状態変更
 };
 
 export default {
@@ -44,8 +49,10 @@ export default {
     },
     setup() {
         const frame = ref(null);
+        const node = ref(null);
         return {
             frame,
+            node,
             position: Point(),
         };
     },
@@ -73,6 +80,9 @@ export default {
         }
     },
     methods: {
+        getNode: function() {
+            return this.node;
+        },
         ...mapMutations('EditorStatus', {
             changeControlState: 'changeState', // 操作ステータス変更
         }),
@@ -85,6 +95,9 @@ export default {
                 if (this.isIdling) {
                     this.moving = true;
                     this.changeControlState(EditorControlState.NodeDragging);
+                    this.$emit(EmitEvents.Selected, {
+                        position: this.position,
+                    });
                 }
             }
             else if (e.type == 'mouseup') {
@@ -100,6 +113,9 @@ export default {
                         y: e.pageY - this.page.y,
                     };
                     this.position.move(diff.x, diff.y);
+                    this.$emit(EmitEvents.Moved, {
+                        position: this.position,
+                    });
                 }
                 this.page.x = e.pageX;
                 this.page.y = e.pageY;

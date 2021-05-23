@@ -24,6 +24,7 @@ import { ref } from 'vue'
 import { mapState, mapMutations } from 'vuex'
 import NodeEditor from 'node_editor/NodeEditor'
 import ConfigLoader from 'models/ConfigLoader'
+import { runTest } from 'models/ConfigTest'
 
 export default {
     components: {
@@ -39,6 +40,7 @@ export default {
     mounted() {
         this.$nextTick(() => {
             ConfigLoader.loadConfig(() => {
+                runTest();
                 this.loading = false;
             });
         });
